@@ -37,6 +37,15 @@ export const aboutStats = [
   { value: '2,000+', label: 'automated tests across my projects' },
 ];
 
+// "What I'm looking for" card above the contact form. Keep in line with the About section
+// (roles and cities) and profile.description ("Available now").
+export const lookingFor = [
+  { label: 'Roles', value: 'Data Scientist, ML Engineer, AI Engineer' },
+  { label: 'Location', value: 'Bengaluru, Hyderabad, Chennai or anywhere else' },
+  { label: 'Work type', value: 'Full-time roles and freelance projects' },
+  { label: 'Availability', value: 'Available now' },
+];
+
 // The "correction ledger" on the home page: figures that looked good, and what they were after checking.
 // Every number here is from Project_Points.md.
 export const corrections = [
