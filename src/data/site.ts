@@ -67,8 +67,7 @@ export const experience = [
     role: 'Independent Data Scientist (Freelance)',
     org: 'Self-employed',
     dates: 'Jan 2026 – Present',
-    // Left out of the "years of experience" figure in the About section.
-    countsTowardYears: false,
+    // Counts toward the "years of experience" figure in the About section (Melvin's choice, 2026-11-07).
     note: 'Freelance data science and AI work for clients, alongside public portfolio projects (code on GitHub). Portfolio projects from this period:',
     // Tool row: only tools in the stack lists of the three projects below.
     tools: ['Python', 'XGBoost', 'LightGBM', 'FastAPI', 'Docker', 'Google Cloud Run', 'GitHub Actions', 'Streamlit'],
@@ -111,9 +110,9 @@ export const experience = [
   },
 ];
 
-// "1.5 years" in the About section, worked out from the roles above at build time so it never goes
+// "2 years" in the About section, worked out from the roles above at build time so it never goes
 // stale. Roles marked countsTowardYears: false are skipped; overlapping months count once;
-// "Present" means the build date. Rounded to the nearest half year.
+// "Present" means the build date. Rounded DOWN to whole years, so it never overstates.
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function monthIndex(text: string, now: Date) {
@@ -132,7 +131,7 @@ export function experienceLabel(now = new Date()) {
     const [from, to] = job.dates.split('–');
     for (let i = monthIndex(from, now); i <= monthIndex(to, now); i++) months.add(i);
   }
-  const years = Math.round(months.size / 6) / 2;
+  const years = Math.floor(months.size / 12);
   return `${years} year${years === 1 ? '' : 's'}`;
 }
 
