@@ -236,18 +236,19 @@ const year = new Date().getFullYear();
     display: grid; place-items: center; width: 2.5rem; height: 2.5rem;
     background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 50%; cursor: pointer;
   }
-  /* Footer: the Pages and Connect lists stacked vertically on the left, then a thin bottom bar. */
+  /* Footer: two rows, "Pages" then its links, "Connect" then its links; then a thin bottom bar. */
   .site-footer {
     border-top: 1px solid var(--line); margin-top: 4rem; padding: 3rem 0 2rem;
     color: var(--muted); font-size: var(--step--1);
   }
-  /* One column, up to 14rem wide: Pages on top, Connect underneath. */
-  .footer-grid { display: grid; grid-template-columns: minmax(0, 14rem); gap: 2rem; justify-content: start; }
+  /* Each row: heading on the left, links in a line after it (they wrap on narrow screens). */
+  .footer-grid { display: grid; gap: 1rem; }
+  .footer-col { display: flex; align-items: baseline; gap: 0.5rem 1.5rem; }
   .footer-col h2 {
     font-family: var(--font-body); font-size: var(--step--1); font-weight: 600;
-    color: var(--ink); margin: 0 0 0.75rem;
+    color: var(--ink); margin: 0; flex: none; width: 4.5rem;
   }
-  .footer-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+  .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
   .footer-col a, .to-top { color: var(--muted); text-decoration: none; }
   .footer-col a { display: inline-flex; align-items: center; gap: 0.5rem; }
   .footer-col a:hover, .to-top:hover { color: var(--ink); text-decoration: underline; }
