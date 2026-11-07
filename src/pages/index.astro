@@ -71,12 +71,6 @@ const total = (await getProjects()).length;
           <li><strong>Try to break it.</strong> Look for leakage, weak baselines and evaluation that flatters the model.</li>
           <li><strong>Measure and say so.</strong> Report the honest number, including when a target was missed.</li>
         </ol>
-        <h3 class="edu-title">Education</h3>
-        <ul class="plain">
-          {education.map((e) => (
-            <li><strong>{e.title}</strong>, {e.org} <span class="muted num">({e.dates})</span></li>
-          ))}
-        </ul>
       </div>
     </div>
 
@@ -177,6 +171,16 @@ const total = (await getProjects()).length;
             {c.url ? <a href={c.url}>{c.name}</a> : c.name}
             {c.issuer && <span class="muted">, {c.issuer}</span>}
           </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Education: last part of Achievements, with no menu link of its own. -->
+    <div class="certs">
+      <h3 class="sub">Education</h3>
+      <ul class="plain">
+        {education.map((e) => (
+          <li><strong>{e.title}</strong>, {e.org} <span class="muted num">({e.dates})</span></li>
         ))}
       </ul>
     </div>
@@ -296,8 +300,7 @@ const total = (await getProjects()).length;
   .skills dt { font-weight: 600; margin-bottom: 0.25rem; }
   .skills dd { margin: 0; color: var(--muted); }
 
-  /* Education (in About) and certifications (in Achievements) */
-  .edu-title { margin-top: 2rem; }
+  /* Certifications and education lists (in Achievements) */
   .plain { list-style: none; padding: 0; margin: 0; }
   .plain li { padding: 0.5rem 0; border-bottom: 1px solid var(--line); }
 
