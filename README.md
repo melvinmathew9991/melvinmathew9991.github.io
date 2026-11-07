@@ -55,6 +55,16 @@ npm run preview  # serves dist/ to check the production build
 4. Run `npm run build`. A typo in the frontmatter fails with a message naming the file and field.
 5. Commit and push on a branch, open a pull request, merge to `main`. The site updates in about 2 minutes.
 
+## Write a blog post
+
+1. Copy `src/content/posts/how-to-write-a-post.md` (a draft template) and rename it. `my-post.md` → `/blog/my-post/`.
+2. Set `title`, `description`, `date` and `tags`; keep `draft: true` while writing and preview at http://localhost:4321/blog/.
+3. Set `draft: false` and push. The "Blog" menu link and the blog's sitemap entries appear automatically once at least one post is published.
+
+## Contact form and visitor stats
+
+Both are set in `src/data/site.ts`: `contactFormKey` (Web3Forms access key; messages go to the email it was created with) and `goatcounter` (account name; dashboard at `https://<name>.goatcounter.com`). Leave either empty to turn it off.
+
 ## Replace the resume
 
 1. Save the new PDF as `public/resume.pdf` (keep the name, so links don't break).

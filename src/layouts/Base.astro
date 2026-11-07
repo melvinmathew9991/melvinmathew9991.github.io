@@ -3,6 +3,10 @@
 // Every page wraps its content in <Base title="..." description="...">.
 import '../styles/global.css';
 import { profile } from '../data/site';
+import { getPosts } from '../lib/posts';
+
+// The "Blog" menu link appears only once a post is published, so the live site never links to an empty blog.
+const hasPosts = (await getPosts()).length > 0;
 
 interface Props {
   title?: string;
@@ -111,6 +115,7 @@ const year = new Date().getFullYear();
         <ul>
           <li><a href="/projects/">Projects</a></li>
           <li><a href="/#experience">Experience</a></li>
+          {hasPosts && <li><a href="/blog/">Blog</a></li>}
           <li><a href="/#contact">Contact</a></li>
           <li><a href={profile.resume}>Resume</a></li>
         </ul>

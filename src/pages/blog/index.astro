@@ -1,0 +1,47 @@
+---
+// Blog index: every published post, newest first.
+import Base from '../../layouts/Base.astro';
+import { getPosts, formatDate } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+<Base noindex={posts.length === 0} title="Blog | Melvin Mathew" description="Notes from Melvin Mathew on data science, ML and LLM systems: what worked, what didn't, and how the numbers were checked.">
+  <section class="wrap blog">
+    <h1>Blog</h1>
+    <p class="read muted">Notes on data science, ML and LLM systems: what worked, what didn't, and how I checked the numbers.</p>
+
+    {posts.length === 0 ? (
+      <p class="muted">No posts yet.</p>
+    ) : (
+      <ol class="post-list" role="list">
+        {posts.map((post) => (
+          <li>
+            <p class="date num">
+              <time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time>
+              {post.data.draft && <span class="draft">Draft</span>}
+            </p>
+            <h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
+            <p class="read">{post.data.description}</p>
+            {post.data.tags.length > 0 && <p class="tags">{post.data.tags.join(' · ')}</p>}
+          </li>
+        ))}
+      </ol>
+    )}
+  </section>
+</Base>
+
+<style>
+  .blog { padding-top: 2rem; }
+  h1 { font-size: var(--step-3); }
+  .muted { color: var(--muted); }
+  .post-list { list-style: none; padding: 0; margin: 2.5rem 0 0; }
+  .post-list li { padding: 1.5rem 0; border-top: 1px solid var(--line); }
+  .post-list li:last-child { border-bottom: 1px solid var(--line); }
+  .date { margin: 0; color: var(--muted); font-size: var(--step--1); display: flex; gap: 0.75rem; align-items: center; }
+  h2 { font-size: var(--step-1); margin: 0.35rem 0 0.5rem; }
+  h2 a { color: var(--ink); text-decoration: none; }
+  h2 a:hover { color: var(--accent); text-decoration: underline; }
+  .post-list p.read { margin: 0; }
+  .tags { margin: 0.5rem 0 0; color: var(--muted); font-size: var(--step--1); }
+  .draft { color: var(--amber); border: 1px solid var(--amber); border-radius: var(--radius); padding: 0 0.4em; font-size: 0.8em; }
+</style>

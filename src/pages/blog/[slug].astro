@@ -1,0 +1,53 @@
+---
+// One page per blog post.
+import Base from '../../layouts/Base.astro';
+import { render } from 'astro:content';
+import { getPosts, formatDate } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const p = entry.data;
+const { Content } = await render(entry);
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+---
+<Base title={`${p.title} | Melvin Mathew`} description={p.description} type="article" noindex={p.draft}>
+  <article class="wrap post">
+    <p class="crumb"><a href="/blog/">Blog</a></p>
+    {p.draft && <p class="draft-note">Draft: only visible in your local preview, not on the live site.</p>}
+    <h1>{p.title}</h1>
+    <p class="meta">
+      <time datetime={iso(p.date)}>{formatDate(p.date)}</time>
+      {p.updated && <> · updated <time datetime={iso(p.updated)}>{formatDate(p.updated)}</time></>}
+      {p.tags.length > 0 && <> · {p.tags.join(', ')}</>}
+    </p>
+    <div class="body read"><Content /></div>
+    <p class="back"><a href="/blog/">All posts</a> · <a href="/#contact">Get in touch</a></p>
+  </article>
+</Base>
+
+<style>
+  .post { padding-top: 2rem; }
+  .crumb { font-size: var(--step--1); }
+  h1 { font-size: var(--step-3); }
+  .meta { color: var(--muted); font-size: var(--step--1); }
+  .draft-note { color: var(--amber); font-size: var(--step--1); }
+
+  /* Post body (Markdown). Same treatment as the case-study pages. */
+  .body { margin-top: 2rem; }
+  .body :global(h2) { margin-top: 2.5rem; }
+  .body :global(ul), .body :global(ol) { padding-left: 1.25rem; }
+  .body :global(li) { margin-bottom: 0.5rem; }
+  .body :global(code) { font-size: 0.9em; background: var(--surface); padding: 0.1em 0.35em; border-radius: 4px; }
+  .body :global(pre) { background: var(--surface); padding: 1rem; border-radius: var(--radius); overflow-x: auto; }
+  .body :global(pre code) { padding: 0; background: none; }
+  .body :global(blockquote) { margin: 1.5rem 0; padding-left: 1rem; border-left: 3px solid var(--accent); color: var(--muted); }
+  .body :global(img) { max-width: 100%; height: auto; border-radius: var(--radius); }
+  .body :global(table) { width: 100%; border-collapse: collapse; margin: 1.25rem 0 1.5rem; font-size: var(--step--1); display: block; overflow-x: auto; }
+  .body :global(th), .body :global(td) { text-align: left; padding: 0.6rem 1rem 0.6rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .body :global(th) { color: var(--muted); font-weight: 600; border-bottom: 2px solid var(--ink); }
+  .back { margin-top: 3rem; }
+</style>

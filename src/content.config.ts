@@ -33,4 +33,22 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { projects };
+// Blog posts. One Markdown file each in src/content/posts/; the file name becomes the URL
+// (my-post.md → /blog/my-post/). Same rule as projects: numbers must come from the project reports.
+const posts = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
+  schema: z.object({
+    title: z.string(),
+    // One or two sentences: shown on the blog list, in search results and in link previews.
+    description: z.string().max(200),
+    // Publication date, YYYY-MM-DD.
+    date: z.coerce.date(),
+    // Set when a post is meaningfully revised after publishing.
+    updated: z.coerce.date().optional(),
+    tags: z.array(z.string()).default([]),
+    // draft: true = visible in `npm run dev` only, never on the live site.
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, posts };
