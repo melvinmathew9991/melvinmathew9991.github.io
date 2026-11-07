@@ -110,7 +110,10 @@ const year = new Date().getFullYear();
          under it); the inner .wrap keeps the contents aligned with the page. -->
     <header class="site-header">
       <div class="wrap header-inner">
-      <a class="brand" href="/">{profile.name}</a>
+      <a class="brand" href="/">
+        <span class="brand-name">{profile.name}</span>
+        <span class="brand-tag">{profile.tagline}</span>
+      </a>
       <nav aria-label="Main">
         <ul>
           {/* Same order as the sections on the home page. "/#…" so the links also work from other pages. */}
@@ -178,7 +181,11 @@ const year = new Date().getFullYear();
     display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
     padding-top: 0.75rem; padding-bottom: 0.75rem;
   }
-  .brand { font-family: var(--font-head); font-weight: 600; font-size: 1.125rem; color: var(--ink); text-decoration: none; margin-right: auto; }
+  /* Name with a small specialism line underneath. */
+  .brand { display: flex; flex-direction: column; line-height: 1.2; text-decoration: none; margin-right: auto; }
+  .brand-name { font-family: var(--font-head); font-weight: 600; font-size: 1.125rem; color: var(--ink); }
+  .brand-tag { font-size: 0.75rem; letter-spacing: 0.02em; color: var(--accent); margin-top: 0.1rem; }
+  .brand:hover .brand-name { color: var(--accent); }
   nav ul { display: flex; gap: 1.25rem; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
   nav a { color: var(--muted); text-decoration: none; font-size: var(--step--1); }
   nav a:hover { color: var(--ink); }

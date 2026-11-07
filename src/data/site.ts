@@ -6,6 +6,8 @@
 export const profile = {
   name: 'Melvin Mathew',
   roles: 'Data Scientist and AI/ML Engineer',
+  // Small line under the name in the site header.
+  tagline: 'Data Science · ML Engineering · GenAI',
   location: 'Bengaluru, India',
   email: 'melvinmathew9991@gmail.com',
   linkedin: 'https://www.linkedin.com/in/mathew-melvin',
