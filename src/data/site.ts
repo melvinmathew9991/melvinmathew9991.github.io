@@ -24,6 +24,17 @@ export const profile = {
     'Data Scientist and AI/ML Engineer in Bengaluru. Fraud detection, forecasting, credit risk and RAG systems, each audited until the numbers held up. Available now for full-time and freelance work.',
 };
 
+// Headline numbers in the About section. Each must be backed by the site itself:
+// - deployed: AML fraud API and bike-taxi forecaster, both on Google Cloud Run (their case studies).
+// - prepCut: "reducing data preparation time by about 30%", upGrad role (LinkedIn wording, also on the resume).
+// - tests: sum of the "tests" metrics across project files, 2,119 on 2026-11-07; shown rounded down.
+// The project count is not listed here: the home page counts the project files at build time.
+export const aboutStats = [
+  { value: '2', label: 'ML services deployed on Google Cloud Run' },
+  { value: '~30%', label: 'data-prep time cut in an end-to-end ML pipeline' },
+  { value: '2,000+', label: 'automated tests across my projects' },
+];
+
 // The "correction ledger" on the home page: figures that looked good, and what they were after checking.
 // Every number here is from Project_Points.md.
 export const corrections = [

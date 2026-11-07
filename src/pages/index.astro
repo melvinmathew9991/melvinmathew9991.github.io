@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.jsx';
 import ContactForm from '../components/ContactForm.astro';
 import { getProjects } from '../lib/projects';
-import { profile, corrections, experience, experienceLabel, skills, education, certifications } from '../data/site';
+import { profile, aboutStats, corrections, experience, experienceLabel, skills, education, certifications } from '../data/site';
 
 const featured = await getProjects((p) => p.tier === 'featured');
 const total = (await getProjects()).length;
@@ -37,33 +37,55 @@ const total = (await getProjects()).length;
   <!-- Sections below follow the header menu order: About, Experience, Projects, Skills, Achievements, Contact. -->
 
   <!-- About, education, and the working method. The three steps are a real sequence, so they are numbered. -->
-  <section id="about" class="wrap section about" aria-labelledby="about-title">
-    <div class="read">
-      <h2 id="about-title">About</h2>
-      <p>
-        I'm a Data Scientist with {experienceLabel()} of experience across fraud and credit-risk classification, forecasting,
-        clinical prediction, recommenders and GenAI/RAG. My foundation is a BSc in Mathematics, which gives me the
-        statistics to build models I can explain and defend in a stakeholder review, not just tune for a leaderboard.
-      </p>
-      <p>
-        I'm looking for Data Scientist, ML Engineer and AI Engineer roles, in Bengaluru, Hyderabad, Chennai or
-        anywhere else, and I take on freelance projects.
-      </p>
-      <h3 class="edu-title">Education</h3>
-      <ul class="plain">
-        {education.map((e) => (
-          <li><strong>{e.title}</strong>, {e.org} <span class="muted num">({e.dates})</span></li>
-        ))}
-      </ul>
+  <section id="about" class="wrap section" aria-labelledby="about-title">
+    <h2 id="about-title" class="eyebrow">About</h2>
+    <p class="hook">From a maths degree to machine learning that holds up in production</p>
+
+    <div class="about">
+      <div class="read">
+        <p>
+          I'm a Data Scientist and AI/ML Engineer with {experienceLabel()} of experience, building everything from
+          classical machine learning (classification, credit risk, time-series forecasting) to RAG chatbots and
+          tool-calling LLM agents. My BSc in Mathematics gives me the statistics to build models I can explain and
+          defend in a stakeholder review, not just tune for a leaderboard.
+        </p>
+        <p>
+          My focus is end-to-end: data pipelines and feature engineering, time-ordered evaluation against honest
+          baselines, then shipping as tested FastAPI services on Google Cloud Run with CI/CD and drift monitoring.
+          On the LLM side, that means retrieval with FAISS and ChromaDB, orchestration with LangChain, local models
+          through Ollama, and golden-set evaluation gates that run on every change.
+        </p>
+        <p>
+          I care about numbers that survive scrutiny. Leakage checks, baselines and evaluation are built in from day
+          one, not bolted on, and when a figure doesn't hold up, I correct it in public.
+        </p>
+        <p>
+          I'm looking for Data Scientist, ML Engineer and AI Engineer roles, in Bengaluru, Hyderabad, Chennai or
+          anywhere else, and I take on freelance projects.
+        </p>
+      </div>
+      <div>
+        <h3>How I work</h3>
+        <ol class="method">
+          <li><strong>Reproduce it.</strong> Rerun the result exactly before trusting or changing anything.</li>
+          <li><strong>Try to break it.</strong> Look for leakage, weak baselines and evaluation that flatters the model.</li>
+          <li><strong>Measure and say so.</strong> Report the honest number, including when a target was missed.</li>
+        </ol>
+        <h3 class="edu-title">Education</h3>
+        <ul class="plain">
+          {education.map((e) => (
+            <li><strong>{e.title}</strong>, {e.org} <span class="muted num">({e.dates})</span></li>
+          ))}
+        </ul>
+      </div>
     </div>
-    <div>
-      <h3>How I work</h3>
-      <ol class="method">
-        <li><strong>Reproduce it.</strong> Rerun the result exactly before trusting or changing anything.</li>
-        <li><strong>Try to break it.</strong> Look for leakage, weak baselines and evaluation that flatters the model.</li>
-        <li><strong>Measure and say so.</strong> Report the honest number, including when a target was missed.</li>
-      </ol>
-    </div>
+
+    <!-- Headline numbers: every one is backed elsewhere on the site (sources in src/data/site.ts). -->
+    <dl class="stats">
+      {/* dt before dd for valid HTML; CSS shows the number first. */}
+      <div><dt>projects, each with public code or a live dashboard</dt><dd class="num">{total}</dd></div>
+      {aboutStats.map((s) => <div><dt>{s.label}</dt><dd class="num">{s.value}</dd></div>)}
+    </dl>
   </section>
 
   <!-- Experience timeline: wording from LinkedIn. -->
@@ -239,7 +261,17 @@ const total = (await getProjects()).length;
   .more { margin-top: 2rem; }
 
   /* About */
+  .eyebrow { font-family: var(--font-body); font-size: var(--step--1); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+  .hook { font-family: var(--font-head); font-weight: 600; font-size: var(--step-2); line-height: 1.25; max-width: 28ch; margin: 0 0 2rem; color: var(--ink); }
   .about { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 2rem 4rem; }
+  .stats {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem 2rem;
+    margin: 2.5rem 0 0; padding: 1.75rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .stats div { display: flex; flex-direction: column; gap: 0.25rem; }
+  .stats dd { order: -1; margin: 0; font-family: var(--font-head); font-weight: 700; font-size: var(--step-3); line-height: 1; color: var(--accent); }
+  .stats dt { color: var(--muted); font-size: var(--step--1); max-width: 22ch; }
+  @media (max-width: 800px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .method { padding-left: 1.25rem; margin: 0; }
   .method li { margin-bottom: 0.75rem; }
   .method li::marker { font-family: var(--font-head); font-weight: 600; color: var(--accent); }
