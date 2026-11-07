@@ -113,10 +113,14 @@ const year = new Date().getFullYear();
       <a class="brand" href="/">{profile.name}</a>
       <nav aria-label="Main">
         <ul>
-          <li><a href="/projects/">Projects</a></li>
+          {/* Same order as the sections on the home page. "/#…" so the links also work from other pages. */}
+          <li><a href="/#about">About</a></li>
           <li><a href="/#experience">Experience</a></li>
-          {hasPosts && <li><a href="/blog/">Blog</a></li>}
+          <li><a href="/#projects">Projects</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#achievements">Achievements</a></li>
           <li><a href="/#contact">Contact</a></li>
+          {hasPosts && <li><a href="/blog/">Blog</a></li>}
           <li><a href={profile.resume}>Resume</a></li>
         </ul>
       </nav>
@@ -189,9 +193,16 @@ const year = new Date().getFullYear();
   }
   .site-footer p { margin: 0; }
   .site-footer a { margin-right: 1rem; }
-  @media (max-width: 560px) {
-    nav ul { gap: 1rem; }
-    .brand { width: 100%; }
-    .header-inner { gap: 0.25rem 1rem; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+  /* Narrower screens: name and theme button on the first row, the menu as one swipeable row
+     underneath, so the sticky header stays two rows high however many links there are. */
+  @media (max-width: 900px) {
+    .header-inner { gap: 0.25rem 1rem; padding-top: 0.5rem; padding-bottom: 0.25rem; }
+    .theme-toggle { order: 2; }
+    nav { order: 3; width: 100%; min-width: 0; }
+    nav ul {
+      flex-wrap: nowrap; gap: 1.1rem; overflow-x: auto; scrollbar-width: none;
+      padding: 0.35rem 0 0.4rem; white-space: nowrap;
+    }
+    nav ul::-webkit-scrollbar { display: none; }
   }
 </style>

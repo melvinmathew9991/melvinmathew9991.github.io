@@ -23,7 +23,7 @@ const total = (await getProjects()).length;
       <span><strong>Available now.</strong> Based in {profile.location} and open to relocation, remote work and freelance projects.</span>
     </p>
     <div class="actions">
-      <a class="btn btn-primary" href="#work">See my work</a>
+      <a class="btn btn-primary" href="#projects">See my work</a>
       <a class="btn" href={profile.resume} download="Melvin_Mathew_Resume.pdf">Download resume (PDF)</a>
       <a class="btn" href={`mailto:${profile.email}`}>Email me</a>
     </div>
@@ -34,50 +34,9 @@ const total = (await getProjects()).length;
     </picture>
   </section>
 
-  <!-- Correction ledger: the signature element. Reported figure struck through, measured figure beside it. -->
-  <section class="ledger-section wrap" aria-labelledby="ledger-title">
-    <h2 id="ledger-title">Numbers I corrected before anyone else had to</h2>
-    <p class="read muted">
-      Every project here started with a figure that looked fine. These are the ones that changed most once I went
-      looking for what was wrong.
-    </p>
-    <table class="ledger">
-      <caption class="visually-hidden">Reported figures and the figures measured after checking</caption>
-      <thead>
-        <tr>
-          <th scope="col">Project</th>
-          <th scope="col">Metric</th>
-          <th scope="col">Reported</th>
-          <th scope="col">Measured</th>
-        </tr>
-      </thead>
-      <tbody>
-        {corrections.map((c) => (
-          <tr>
-            <th scope="row">
-              <a href={c.href}>{c.project}</a>
-              <span class="why">{c.note}</span>
-            </th>
-            <td data-label="Metric">{c.measure}</td>
-            <td data-label="Reported" class="num before"><s><span class="visually-hidden">reported </span>{c.before}</s></td>
-            <td data-label="Measured" class="num after">{c.after}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </section>
+  <!-- Sections below follow the header menu order: About, Experience, Projects, Skills, Achievements, Contact. -->
 
-  <!-- Featured work: the projects with case studies. -->
-  <section id="work" class="wrap section" aria-labelledby="work-title">
-    <h2 id="work-title">Selected work</h2>
-    <p class="read muted">{featured.length} projects with full write-ups. Every result comes from the project's own test and evaluation reports.</p>
-    <ol class="project-list" role="list">
-      {featured.map((p) => <li><ProjectCard project={p} /></li>)}
-    </ol>
-    <p class="more"><a class="btn" href="/projects/">See all {total} projects</a></p>
-  </section>
-
-  <!-- About, plus the working method. The three steps are a real sequence, so they are numbered. -->
+  <!-- About, education, and the working method. The three steps are a real sequence, so they are numbered. -->
   <section id="about" class="wrap section about" aria-labelledby="about-title">
     <div class="read">
       <h2 id="about-title">About</h2>
@@ -90,6 +49,12 @@ const total = (await getProjects()).length;
         I'm looking for Data Scientist, ML Engineer and AI Engineer roles, in Bengaluru, Hyderabad, Chennai or
         anywhere else, and I take on freelance projects.
       </p>
+      <h3 class="edu-title">Education</h3>
+      <ul class="plain">
+        {education.map((e) => (
+          <li><strong>{e.title}</strong>, {e.org} <span class="muted num">({e.dates})</span></li>
+        ))}
+      </ul>
     </div>
     <div>
       <h3>How I work</h3>
@@ -124,6 +89,16 @@ const total = (await getProjects()).length;
     </ol>
   </section>
 
+  <!-- Projects: the featured ones with case studies, plus a link to all of them. -->
+  <section id="projects" class="wrap section" aria-labelledby="projects-title">
+    <h2 id="projects-title">Projects</h2>
+    <p class="read muted">{featured.length} projects with full write-ups. Every result comes from the project's own test and evaluation reports.</p>
+    <ol class="project-list" role="list">
+      {featured.map((p) => <li><ProjectCard project={p} /></li>)}
+    </ol>
+    <p class="more"><a class="btn" href="/projects/">See all {total} projects</a></p>
+  </section>
+
   <!-- Skills, grouped. -->
   <section id="skills" class="wrap section" aria-labelledby="skills-title">
     <h2 id="skills-title">Skills</h2>
@@ -137,18 +112,43 @@ const total = (await getProjects()).length;
     </dl>
   </section>
 
-  <!-- Education and certifications. -->
-  <section id="education" class="wrap section edu" aria-labelledby="edu-title">
-    <div>
-      <h2 id="edu-title">Education</h2>
-      <ul class="plain">
-        {education.map((e) => (
-          <li><strong>{e.title}</strong>, {e.org} <span class="muted num">({e.dates})</span></li>
+  <!-- Achievements: the correction ledger (reported figure struck through, measured figure beside it),
+       then certifications. -->
+  <section id="achievements" class="wrap section" aria-labelledby="achievements-title">
+    <h2 id="achievements-title">Achievements</h2>
+
+    <h3 class="sub">Numbers I corrected before anyone else had to</h3>
+    <p class="read muted">
+      Every project here started with a figure that looked fine. These are the ones that changed most once I went
+      looking for what was wrong.
+    </p>
+    <table class="ledger">
+      <caption class="visually-hidden">Reported figures and the figures measured after checking</caption>
+      <thead>
+        <tr>
+          <th scope="col">Project</th>
+          <th scope="col">Metric</th>
+          <th scope="col">Reported</th>
+          <th scope="col">Measured</th>
+        </tr>
+      </thead>
+      <tbody>
+        {corrections.map((c) => (
+          <tr>
+            <th scope="row">
+              <a href={c.href}>{c.project}</a>
+              <span class="why">{c.note}</span>
+            </th>
+            <td data-label="Metric">{c.measure}</td>
+            <td data-label="Reported" class="num before"><s><span class="visually-hidden">reported </span>{c.before}</s></td>
+            <td data-label="Measured" class="num after">{c.after}</td>
+          </tr>
         ))}
-      </ul>
-    </div>
-    <div>
-      <h2>Certifications</h2>
+      </tbody>
+    </table>
+
+    <div class="certs">
+      <h3 class="sub">Certifications</h3>
       <ul class="plain">
         {certifications.map((c) => (
           <li>
@@ -202,8 +202,9 @@ const total = (await getProjects()).length;
   .dot { flex: none; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--accent); transform: translateY(-0.05em); }
   .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
 
-  /* Correction ledger */
-  .ledger-section { margin-top: clamp(3.5rem, 8vw, 5.5rem); }
+  /* Achievements: correction ledger, then certifications */
+  .sub { font-size: var(--step-1); margin-top: 1.5rem; }
+  .certs { margin-top: 3rem; max-width: var(--read); }
   .ledger { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
   .ledger thead th {
     text-align: left; font-family: var(--font-body); font-weight: 600; font-size: var(--step--1);
@@ -263,8 +264,8 @@ const total = (await getProjects()).length;
   .skills dt { font-weight: 600; margin-bottom: 0.25rem; }
   .skills dd { margin: 0; color: var(--muted); }
 
-  /* Education */
-  .edu { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 2rem 4rem; }
+  /* Education (in About) and certifications (in Achievements) */
+  .edu-title { margin-top: 2rem; }
   .plain { list-style: none; padding: 0; margin: 0; }
   .plain li { padding: 0.5rem 0; border-bottom: 1px solid var(--line); }
 
