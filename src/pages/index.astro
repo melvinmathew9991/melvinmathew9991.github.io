@@ -10,23 +10,24 @@ const featured = await getProjects((p) => p.tier === 'featured');
 const total = (await getProjects()).length;
 ---
 <Base>
-  <!-- Hero: who, for which roles, availability, and the three actions a recruiter wants. -->
+  <!-- Hero: where and availability, name, role, one-paragraph pitch, and two actions. -->
   <section class="hero wrap" aria-labelledby="hero-title">
     <div class="hero-text">
-    <h1 id="hero-title">{profile.name}</h1>
-    <p class="lede read">
-      Data Scientist and AI/ML Engineer. I build fraud detection, forecasting, credit-risk and RAG systems,
-      then test them until the numbers hold up.
-    </p>
-    <p class="availability read">
-      <span class="dot" aria-hidden="true"></span>
-      <span><strong>Available now.</strong> Based in {profile.location} and open to relocation, remote work and freelance projects.</span>
-    </p>
-    <div class="actions">
-      <a class="btn btn-primary" href="#projects">See my work</a>
-      <a class="btn" href={profile.resume} download="Melvin_Mathew_Resume.pdf">Download resume (PDF)</a>
-      <a class="btn" href={`mailto:${profile.email}`}>Email me</a>
-    </div>
+      <p class="availability">
+        <span class="dot" aria-hidden="true"></span>
+        <span>{profile.location} · Open to opportunities</span>
+      </p>
+      <h1 id="hero-title">{profile.name}</h1>
+      <p class="role"><span class="prompt" aria-hidden="true">&gt;</span> Data Scientist &amp; AI/ML Engineer<span class="caret" aria-hidden="true"></span></p>
+      <p class="lede read">
+        I build and ship machine learning and LLM systems (fraud detection, demand forecasting, credit risk and
+        RAG applications) and test them until the numbers hold up. Currently building with XGBoost, LightGBM,
+        LangChain and FastAPI, deployed on Google Cloud Run.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#projects">View projects</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
     </div>
     <picture class="portrait">
       <source srcset="/melvin-mathew.webp" type="image/webp" />
@@ -36,50 +37,44 @@ const total = (await getProjects()).length;
 
   <!-- Sections below follow the header menu order: About, Experience, Projects, Skills, Achievements, Contact. -->
 
-  <!-- About, education, and the working method. The three steps are a real sequence, so they are numbered. -->
+  <!-- About: hook, intro beside the headline numbers, then the working method. -->
   <section id="about" class="wrap section" aria-labelledby="about-title">
     <h2 id="about-title" class="eyebrow">About</h2>
     <p class="hook">From a maths degree to machine learning that holds up in production</p>
 
-    <div class="about">
-      <div class="read">
-        <p>
+    <div class="about-top">
+      <div class="about-text">
+        <p class="about-lead">
           I'm a Data Scientist and AI/ML Engineer with {experienceLabel()} of experience, building everything from
-          classical machine learning (classification, credit risk, time-series forecasting) to RAG chatbots and
-          tool-calling LLM agents. My BSc in Mathematics gives me the statistics to build models I can explain and
-          defend in a stakeholder review, not just tune for a leaderboard.
+          classical ML (classification, credit risk, forecasting) to RAG chatbots and tool-calling LLM agents.
         </p>
         <p>
-          My focus is end-to-end: data pipelines and feature engineering, time-ordered evaluation against honest
-          baselines, then shipping as tested FastAPI services on Google Cloud Run with CI/CD and drift monitoring.
-          On the LLM side, that means retrieval with FAISS and ChromaDB, orchestration with LangChain, local models
-          through Ollama, and golden-set evaluation gates that run on every change.
+          I work end-to-end: data pipelines and features, time-ordered evaluation against honest baselines, then
+          tested FastAPI services on Google Cloud Run with CI/CD and drift monitoring. For LLM work I use FAISS,
+          ChromaDB, LangChain and Ollama, with golden-set evaluation gates on every change.
         </p>
         <p>
-          I care about numbers that survive scrutiny. Leakage checks, baselines and evaluation are built in from day
-          one, not bolted on, and when a figure doesn't hold up, I correct it in public.
-        </p>
-        <p>
-          I'm looking for Data Scientist, ML Engineer and AI Engineer roles, in Bengaluru, Hyderabad, Chennai or
-          anywhere else, and I take on freelance projects.
+          My BSc in Mathematics means I build models I can explain and defend, not just tune. I'm looking for
+          Data Scientist, ML Engineer and AI Engineer roles, in Bengaluru, Hyderabad, Chennai or anywhere else, and I
+          take on freelance projects.
         </p>
       </div>
-      <div>
-        <h3>How I work</h3>
-        <ol class="method">
-          <li><strong>Reproduce it.</strong> Rerun the result exactly before trusting or changing anything.</li>
-          <li><strong>Try to break it.</strong> Look for leakage, weak baselines and evaluation that flatters the model.</li>
-          <li><strong>Measure and say so.</strong> Report the honest number, including when a target was missed.</li>
-        </ol>
-      </div>
+
+      <!-- Headline numbers: every one is backed elsewhere on the site (sources in src/data/site.ts). -->
+      <dl class="stats">
+        {/* dt before dd for valid HTML; CSS shows the number first. */}
+        <div><dt>projects, each with public code or a live dashboard</dt><dd class="num">{total}</dd></div>
+        {aboutStats.map((s) => <div><dt>{s.label}</dt><dd class="num">{s.value}</dd></div>)}
+      </dl>
     </div>
 
-    <!-- Headline numbers: every one is backed elsewhere on the site (sources in src/data/site.ts). -->
-    <dl class="stats">
-      {/* dt before dd for valid HTML; CSS shows the number first. */}
-      <div><dt>projects, each with public code or a live dashboard</dt><dd class="num">{total}</dd></div>
-      {aboutStats.map((s) => <div><dt>{s.label}</dt><dd class="num">{s.value}</dd></div>)}
-    </dl>
+    <!-- The working method. The three steps are a real sequence, so they are numbered. -->
+    <h3 class="method-title">How I work</h3>
+    <ol class="method" role="list">
+      <li><span class="step num" aria-hidden="true">01</span><strong>Reproduce it.</strong> Rerun the result exactly before trusting or changing anything.</li>
+      <li><span class="step num" aria-hidden="true">02</span><strong>Try to break it.</strong> Look for leakage, weak baselines and evaluation that flatters the model.</li>
+      <li><span class="step num" aria-hidden="true">03</span><strong>Measure and say so.</strong> Report the honest number, including when a target was missed.</li>
+    </ol>
   </section>
 
   <!-- Experience timeline: wording from LinkedIn. -->
@@ -221,11 +216,17 @@ const total = (await getProjects()).length;
     .portrait { order: -1; }
     .portrait img { width: 7.5rem; }
   }
-  .hero h1 { font-size: var(--step-3); margin-bottom: 0.4em; }
-  .lede { font-size: var(--step-1); line-height: 1.5; }
-  .availability { display: flex; gap: 0.6rem; align-items: baseline; color: var(--muted); }
-  .availability strong { color: var(--ink); }
-  .dot { flex: none; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--accent); transform: translateY(-0.05em); }
+  .availability { display: flex; gap: 0.6rem; align-items: center; color: var(--muted); font-size: var(--step--1); margin: 0 0 1rem; }
+  .dot { flex: none; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent); }
+  .hero h1 { font-size: var(--step-3); margin: 0 0 0.35em; }
+  /* Terminal-style role line with a blinking caret (static when the visitor prefers reduced motion). */
+  .role { font-family: ui-monospace, 'Cascadia Code', Consolas, 'SFMono-Regular', Menlo, monospace; font-size: var(--step-1); color: var(--accent); margin: 0 0 1.25rem; }
+  .prompt { color: var(--muted); margin-right: 0.35em; }
+  .caret { display: inline-block; width: 0.55em; height: 1.1em; margin-left: 0.2em; vertical-align: -0.15em; background: var(--accent); animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .caret { animation: none; } }
+  @media (max-width: 420px) { .role { font-size: var(--step-0); } }
+  .lede { font-size: var(--step-1); line-height: 1.55; color: var(--muted); }
   .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
 
   /* Achievements: correction ledger, then certifications */
@@ -264,22 +265,28 @@ const total = (await getProjects()).length;
   .project-list { margin-top: 2rem; }
   .more { margin-top: 2rem; }
 
-  /* About */
+  /* About: hook, then intro text beside the numbers, then the three working steps. */
   .eyebrow { font-family: var(--font-body); font-size: var(--step--1); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
-  .hook { font-family: var(--font-head); font-weight: 600; font-size: var(--step-2); line-height: 1.25; max-width: 28ch; margin: 0 0 2rem; color: var(--ink); }
-  .about { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 2rem 4rem; }
-  .stats {
-    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem 2rem;
-    margin: 2.5rem 0 0; padding: 1.75rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  .hook { font-family: var(--font-head); font-weight: 600; font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.25rem); line-height: 1.2; max-width: 32ch; margin: 0 0 2.5rem; color: var(--ink); }
+  .about-top { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 2rem 3.5rem; align-items: start; }
+  .about-text p { margin: 0 0 1rem; color: var(--muted); }
+  .about-text .about-lead { font-size: var(--step-1); line-height: 1.5; color: var(--ink); }
+  .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 0; }
+  .stats div {
+    display: flex; flex-direction: column; gap: 0.35rem;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.2rem;
   }
-  .stats div { display: flex; flex-direction: column; gap: 0.25rem; }
-  .stats dd { order: -1; margin: 0; font-family: var(--font-head); font-weight: 700; font-size: var(--step-3); line-height: 1; color: var(--accent); }
-  .stats dt { color: var(--muted); font-size: var(--step--1); max-width: 22ch; }
-  @media (max-width: 800px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .method { padding-left: 1.25rem; margin: 0; }
-  .method li { margin-bottom: 0.75rem; }
-  .method li::marker { font-family: var(--font-head); font-weight: 600; color: var(--accent); }
-  @media (max-width: 800px) { .about { grid-template-columns: 1fr; } }
+  .stats dd { order: -1; margin: 0; font-family: var(--font-head); font-weight: 700; font-size: var(--step-2); line-height: 1.1; color: var(--accent); }
+  .stats dt { color: var(--muted); font-size: var(--step--1); line-height: 1.4; }
+  .method-title { margin: 3rem 0 1rem; }
+  .method { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem 2rem; }
+  .method li { border-top: 2px solid var(--accent); padding-top: 0.9rem; color: var(--muted); }
+  .method strong { display: block; color: var(--ink); margin-bottom: 0.25rem; }
+  .step { display: block; font-family: var(--font-head); font-weight: 700; color: var(--accent); font-size: var(--step--1); margin-bottom: 0.35rem; }
+  @media (max-width: 800px) {
+    .about-top { grid-template-columns: 1fr; }
+    .method { grid-template-columns: 1fr; }
+  }
 
   /* Experience timeline */
   .timeline { list-style: none; padding: 0; margin: 2rem 0 0; }
