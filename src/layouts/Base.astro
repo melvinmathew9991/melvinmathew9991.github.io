@@ -236,13 +236,13 @@ const year = new Date().getFullYear();
     display: grid; place-items: center; width: 2.5rem; height: 2.5rem;
     background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 50%; cursor: pointer;
   }
-  /* Footer: two left-aligned link columns (side by side at every width), then a thin bottom bar. */
+  /* Footer: the Pages and Connect lists stacked vertically on the left, then a thin bottom bar. */
   .site-footer {
     border-top: 1px solid var(--line); margin-top: 4rem; padding: 3rem 0 2rem;
     color: var(--muted); font-size: var(--step--1);
   }
-  /* Each column is up to 14rem wide and shrinks to fit on phones. */
-  .footer-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 14rem)); gap: 2rem; justify-content: start; }
+  /* One column, up to 14rem wide: Pages on top, Connect underneath. */
+  .footer-grid { display: grid; grid-template-columns: minmax(0, 14rem); gap: 2rem; justify-content: start; }
   .footer-col h2 {
     font-family: var(--font-body); font-size: var(--step--1); font-weight: 600;
     color: var(--ink); margin: 0 0 0.75rem;
