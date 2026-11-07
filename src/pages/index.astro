@@ -186,13 +186,9 @@ const total = (await getProjects()).length;
     <h2 id="contact-title">Get in touch</h2>
     <p class="read">
       Hiring for a data science or AI/ML role, or need help with a model or an LLM application?
-      {profile.contactFormKey ? 'Send me a message here, or use any of the links below.' : 'Email is the fastest way to reach me.'}
+      {profile.contactFormKey ? 'Send me a message here. Email, LinkedIn and GitHub links are in the footer.' : 'Email is the fastest way to reach me.'}
     </p>
     <ContactForm />
-    <ul class="contact-list" role="list">
-      <li><span class="label">Email</span><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
-      <li><span class="label">LinkedIn</span><a href={profile.linkedin}>linkedin.com/in/mathew-melvin</a></li>
-      <li><span class="label">GitHub</span><a href={profile.github}>github.com/melvinmathew9991</a></li>    </ul>
   </section>
 </Base>
 
@@ -311,8 +307,4 @@ const total = (await getProjects()).length;
   .plain { list-style: none; padding: 0; margin: 0; }
   .plain li { padding: 0.5rem 0; border-bottom: 1px solid var(--line); }
 
-  /* Contact */
-  .contact-list { list-style: none; padding: 0; margin: 1.5rem 0 0; max-width: var(--read); }
-  .contact-list li { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; padding: 0.7rem 0; border-top: 1px solid var(--line); }
-  .label { color: var(--muted); }
 </style>
