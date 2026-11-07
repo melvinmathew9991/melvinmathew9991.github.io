@@ -141,6 +141,7 @@ const year = new Date().getFullYear();
 
     <footer class="site-footer">
       <div class="wrap">
+        <div class="footer-box">
         <div class="footer-grid">
           <div class="footer-col">
             <h2 id="footer-pages">Pages</h2>
@@ -186,7 +187,12 @@ const year = new Date().getFullYear();
         </div>
         <div class="footer-bar">
           <p>© {year} {profile.name}</p>
-          <p>Built with Astro and React <a class="to-top" href="#main">Back to top</a></p>
+          <p>
+            Built with Astro and React
+            <span class="dot" aria-hidden="true">·</span>
+            <a class="to-top" href="#main">Back to top <span aria-hidden="true">↑</span></a>
+          </p>
+        </div>
         </div>
       </div>
     </footer>
@@ -236,16 +242,21 @@ const year = new Date().getFullYear();
     display: grid; place-items: center; width: 2.5rem; height: 2.5rem;
     background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 50%; cursor: pointer;
   }
-  /* Footer: two rows, "Pages" then its links, "Connect" then its links; then a thin bottom bar. */
+  /* Footer: one card holding two rows ("Pages" + links, "Connect" + links) and a bottom bar. */
   .site-footer {
-    border-top: 1px solid var(--line); margin-top: 4rem; padding: 3rem 0 2rem;
-    color: var(--muted); font-size: var(--step--1);
+    margin-top: 4rem; padding: 0 0 2rem;
+    color: var(--muted); font-size: var(--step--1); line-height: 1.6;
   }
-  /* Each row: heading on the left, links in a line after it (they wrap on narrow screens). */
+  .footer-box {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.75rem 2rem 1.25rem;
+  }
+  /* Each row: heading in a fixed-width left column, links in a line after it (they wrap on narrow
+     screens). Heading and links share one line height and top alignment, so they line up exactly. */
   .footer-grid { display: grid; gap: 1rem; }
-  .footer-col { display: flex; align-items: baseline; gap: 0.5rem 1.5rem; }
+  .footer-col { display: flex; align-items: flex-start; gap: 0.5rem 1.5rem; }
   .footer-col h2 {
-    font-family: var(--font-body); font-size: var(--step--1); font-weight: 600;
+    font-family: var(--font-body); font-size: var(--step--1); font-weight: 600; line-height: 1.6;
     color: var(--ink); margin: 0; flex: none; width: 4.5rem;
   }
   .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
@@ -255,11 +266,14 @@ const year = new Date().getFullYear();
   .footer-col svg { flex: none; }
   .footer-col a:hover svg { color: var(--accent); }
   .footer-bar {
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 2rem;
-    border-top: 1px solid var(--line); margin-top: 2.5rem; padding-top: 1.25rem;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.25rem 2rem;
+    border-top: 1px solid var(--line); margin-top: 1.5rem; padding-top: 1.25rem;
   }
   .footer-bar p { margin: 0; }
-  .to-top { margin-left: 1rem; }
+  .dot { margin: 0 0.4rem; }
+  @media (max-width: 480px) {
+    .footer-box { padding: 1.25rem 1.25rem 1rem; }
+  }
   /* Narrower screens: name and theme button on the first row, the menu as one swipeable row
      underneath, so the sticky header stays two rows high however many links there are. */
   @media (max-width: 900px) {
