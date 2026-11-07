@@ -139,13 +139,41 @@ const year = new Date().getFullYear();
       <slot />
     </main>
 
-    <footer class="site-footer wrap">
-      <p>© {year} {profile.name}. Built with Astro, hosted on GitHub Pages.</p>
-      <p>
-        <a href={`mailto:${profile.email}`}>Email</a>
-        <a href={profile.linkedin}>LinkedIn</a>
-        <a href={profile.github}>GitHub</a>
-      </p>
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <a class="footer-brand" href="/">
+              <span class="logo" aria-hidden="true">MM</span>
+              <span>{profile.name}</span>
+            </a>
+            <p>Data Scientist and AI/ML Engineer in Bengaluru. Available now for full-time roles and freelance projects.</p>
+            <a class="footer-email" href={`mailto:${profile.email}`}>{profile.email}</a>
+          </div>
+          <nav class="footer-col" aria-label="Footer">
+            <h2>Pages</h2>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/#about">About</a></li>
+              <li><a href="/#experience">Experience</a></li>
+              <li><a href="/projects/">All projects</a></li>
+              {hasPosts && <li><a href="/blog/">Blog</a></li>}
+              <li><a href={profile.resume}>Resume (PDF)</a></li>
+            </ul>
+          </nav>
+          <div class="footer-col">
+            <h2>Elsewhere</h2>
+            <ul>
+              <li><a href={profile.linkedin}>LinkedIn <span aria-hidden="true">↗</span></a></li>
+              <li><a href={profile.github}>GitHub <span aria-hidden="true">↗</span></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bar">
+          <p>© {year} {profile.name}</p>
+          <p>Built with Astro and React, hosted on GitHub Pages</p>
+        </div>
+      </div>
     </footer>
 
     <script is:inline>
@@ -186,30 +214,57 @@ const year = new Date().getFullYear();
   .brand-name { font-family: var(--font-head); font-weight: 600; font-size: 1.125rem; color: var(--ink); }
   .brand-tag { font-size: 0.75rem; letter-spacing: 0.02em; color: var(--accent); margin-top: 0.1rem; }
   .brand:hover .brand-name { color: var(--accent); }
-  nav ul { display: flex; gap: 1.25rem; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
-  nav a { color: var(--muted); text-decoration: none; font-size: var(--step--1); }
-  nav a:hover { color: var(--ink); }
+  .site-header nav ul { display: flex; gap: 1.25rem; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+  .site-header nav a { color: var(--muted); text-decoration: none; font-size: var(--step--1); }
+  .site-header nav a:hover { color: var(--ink); }
   .theme-toggle {
     display: grid; place-items: center; width: 2.5rem; height: 2.5rem;
     background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 50%; cursor: pointer;
   }
+  /* Footer: intro + email on the left, two link columns, then a thin bottom bar. */
   .site-footer {
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 2rem;
-    border-top: 1px solid var(--line); margin-top: 4rem; padding-top: 1.5rem; padding-bottom: 2.5rem;
+    border-top: 1px solid var(--line); margin-top: 4rem; padding: 3rem 0 2rem;
     color: var(--muted); font-size: var(--step--1);
   }
-  .site-footer p { margin: 0; }
-  .site-footer a { margin-right: 1rem; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem 3rem; }
+  .footer-about p { max-width: 36ch; margin: 0.75rem 0 1rem; }
+  .footer-brand {
+    display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none;
+    font-family: var(--font-head); font-weight: 600; font-size: var(--step-1); color: var(--ink);
+  }
+  .logo {
+    display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 7px;
+    background: var(--accent); color: var(--accent-ink);
+    font-family: Georgia, serif; font-weight: 700; font-size: 0.8rem; letter-spacing: -0.02em;
+  }
+  .footer-email { font-family: var(--font-head); font-size: var(--step-1); font-weight: 600; }
+  .footer-col h2 {
+    font-family: var(--font-body); font-size: 0.75rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); margin: 0 0 0.75rem;
+  }
+  .footer-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+  .footer-col a { color: var(--muted); text-decoration: none; }
+  .footer-col a:hover { color: var(--ink); }
+  .footer-bar {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 2rem;
+    border-top: 1px solid var(--line); margin-top: 2.5rem; padding-top: 1.25rem;
+  }
+  .footer-bar p { margin: 0; }
+  /* Phones: intro on top, the two link columns side by side underneath. */
+  @media (max-width: 640px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-about { grid-column: 1 / -1; }
+  }
   /* Narrower screens: name and theme button on the first row, the menu as one swipeable row
      underneath, so the sticky header stays two rows high however many links there are. */
   @media (max-width: 900px) {
     .header-inner { gap: 0.25rem 1rem; padding-top: 0.5rem; padding-bottom: 0.25rem; }
     .theme-toggle { order: 2; }
-    nav { order: 3; width: 100%; min-width: 0; }
-    nav ul {
+    .site-header nav { order: 3; width: 100%; min-width: 0; }
+    .site-header nav ul {
       flex-wrap: nowrap; gap: 1.1rem; overflow-x: auto; scrollbar-width: none;
       padding: 0.35rem 0 0.4rem; white-space: nowrap;
     }
-    nav ul::-webkit-scrollbar { display: none; }
+    .site-header nav ul::-webkit-scrollbar { display: none; }
   }
 </style>

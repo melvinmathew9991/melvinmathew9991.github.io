@@ -185,7 +185,8 @@ const total = (await getProjects()).length;
   <section id="contact" class="wrap section contact" aria-labelledby="contact-title">
     <h2 id="contact-title">Get in touch</h2>
     <p class="read">
-      Hiring for a data science or AI/ML role, or need help with a model or an LLM application?
+      {/* {' '} keeps the space between the two sentences; Astro drops a line break before an expression. */}
+      Hiring for a data science or AI/ML role, or need help with a model or an LLM application?{' '}
       {profile.contactFormKey ? 'Send me a message here. Email, LinkedIn and GitHub links are in the footer.' : 'Email is the fastest way to reach me.'}
     </p>
     <ContactForm />
