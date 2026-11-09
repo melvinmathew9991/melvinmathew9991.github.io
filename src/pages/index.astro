@@ -185,40 +185,39 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
     </div>
   </section>
 
-  <!-- Achievements: the correction ledger (reported figure struck through, measured figure beside it),
-       then certifications. -->
+  <!-- Achievements: one card per corrected figure (reported figure struck through, measured figure beside it).
+       The cards reuse the project card classes from src/styles/projects.css. -->
   <section id="achievements" class="wrap section" aria-labelledby="achievements-title">
     <h2 id="achievements-title">Achievements</h2>
 
     <h3 class="sub">Numbers I corrected before anyone else had to</h3>
-    <p class="read muted">
+    <p class="read muted small">
       Every project here started with a figure that looked fine. These are the ones that changed most once I went
       looking for what was wrong.
     </p>
-    <table class="ledger">
-      <caption class="visually-hidden">Reported figures and the figures measured after checking</caption>
-      <thead>
-        <tr>
-          <th scope="col">Project</th>
-          <th scope="col">Metric</th>
-          <th scope="col">Reported</th>
-          <th scope="col">Measured</th>
-        </tr>
-      </thead>
-      <tbody>
-        {corrections.map((c) => (
-          <tr>
-            <th scope="row">
-              <a href={c.href}>{c.project}</a>
-              <span class="why">{c.note}</span>
-            </th>
-            <td data-label="Metric">{c.measure}</td>
-            <td data-label="Reported" class="num before"><s><span class="visually-hidden">reported </span>{c.before}</s></td>
-            <td data-label="Measured" class="num after">{c.after}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <ul class="project-list corrections" role="list">
+      {corrections.map((c) => (
+        <li>
+          <article class="project">
+            <div class="project-top">
+              <p class="project-meta"><span class="pill">{c.measure}</span></p>
+            </div>
+            <h4 class="project-title">{c.project}</h4>
+            <p class="change">
+              <s class="before num"><span class="visually-hidden">Before: </span>{c.before}<span class="visually-hidden">,</span></s>
+              <span class="change-arrow" aria-hidden="true">→</span>
+              <span class="after num"><span class="visually-hidden">After: </span>{c.after}</span>
+            </p>
+            <p class="project-outcome">{c.note}</p>
+            <p class="project-links">
+              <a href={c.href} aria-label={`${c.href.startsWith('/projects/') ? 'Read the case study' : 'View the code'}: ${c.project}`}>
+                {c.href.startsWith('/projects/') ? 'Read the case study' : 'View the code'}
+              </a>
+            </p>
+          </article>
+        </li>
+      ))}
+    </ul>
   </section>
 
   <!-- Certifications: each card is one link to its verification page, newest first. -->
@@ -308,36 +307,14 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
   .lede { font-size: var(--step-1); line-height: 1.55; color: var(--muted); }
   .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
 
-  /* Achievements: correction ledger */
+  /* Achievements: correction cards. Box, pill, title, note and link come from the project card styles;
+     only the before → after row is specific to this block. */
   .sub { font-size: var(--step-1); margin-top: 1.5rem; }
-  .ledger { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
-  .ledger thead th {
-    text-align: left; font-family: var(--font-body); font-weight: 600; font-size: var(--step--1);
-    color: var(--muted); padding: 0 1rem 0.6rem 0; border-bottom: 2px solid var(--ink);
-  }
-  .ledger tbody th, .ledger td { padding: 1.1rem 1rem 1.1rem 0; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
-  .ledger tbody th { font-weight: 600; width: 46%; }
-  .ledger tbody th a { color: var(--ink); }
-  .why { display: block; font-weight: 400; color: var(--muted); font-size: var(--step--1); margin-top: 0.25rem; max-width: 46ch; }
-  .ledger td { white-space: nowrap; color: var(--muted); }
-  .before { color: var(--amber) !important; font-size: var(--step-1); }
-  .before s { text-decoration-thickness: 2px; }
-  .after { color: var(--accent) !important; font-size: var(--step-2); font-weight: 700; font-family: var(--font-head); line-height: 1.1; }
-  .ledger thead th:nth-child(n + 3), .ledger td.num { text-align: right; }
-  .ledger td:last-child, .ledger thead th:last-child { padding-right: 0; }
-
-  /* On small screens each row becomes a stacked block: project, then reported/measured side by side. */
-  @media (max-width: 640px) {
-    .ledger thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-    .ledger tbody tr {
-      display: grid; grid-template-columns: auto 1fr auto; column-gap: 1rem; align-items: baseline;
-      padding: 1rem 0; border-bottom: 1px solid var(--line);
-    }
-    .ledger tbody th, .ledger td { border: 0; padding: 0; width: auto; }
-    .ledger tbody th { grid-column: 1 / -1; margin-bottom: 0.6rem; }
-    .ledger td.num { text-align: left; }
-    .after { text-align: right !important; }
-  }
+  .project-list.corrections { margin-top: 1.5rem; }
+  .change { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.75rem; margin: 0.25rem 0 1rem; }
+  .before { color: var(--amber); font-size: var(--step-1); text-decoration-thickness: 2px; }
+  .change-arrow { color: var(--muted); font-family: var(--font-body); }
+  .after { color: var(--accent); font-family: var(--font-head); font-weight: 700; font-size: 2rem; line-height: 1.1; }
 
   /* Projects list (card styles live in src/styles/projects.css) */
   .project-list { margin-top: 2rem; }
