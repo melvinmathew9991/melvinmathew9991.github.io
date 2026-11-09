@@ -2,7 +2,7 @@
 title: AML fraud detection pipeline
 outcome: Ranks 6.36M payment transactions so a 250-a-day review queue catches 95.1% of fraud with zero false positives.
 role: AI/ML Engineering
-stack: [Python, LightGBM, DuckDB, FastAPI, Docker, Google Cloud Run, Streamlit, GitHub Actions]
+stack: [Python, LightGBM, Optuna, DuckDB, FastAPI, Docker, Google Cloud Run, Streamlit, GitHub Actions]
 metrics:
   - { value: "0.9974", label: "PR-AUC on 0.13% fraud prevalence" }
   - { value: "95.1%", label: "recall at zero false positives, 250 reviews a day" }

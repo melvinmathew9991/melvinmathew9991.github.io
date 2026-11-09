@@ -3,6 +3,7 @@
 // then React takes over in the browser so the filters work.
 import { useEffect, useMemo, useState } from 'react';
 import ProjectCard from './ProjectCard.jsx';
+import { matchesQuery } from '../lib/search.js';
 import { ROLES as PROJECT_ROLES } from '../data/roles';
 
 const ROLES = ['All', ...PROJECT_ROLES];
@@ -37,12 +38,7 @@ export default function ProjectBrowser({ projects }) {
     return c;
   }, [projects]);
 
-  const q = query.trim().toLowerCase();
-  const shown = projects.filter(
-    (p) =>
-      (role === 'All' || p.role === role) &&
-      (!q || [p.title, p.outcome, ...p.stack].some((t) => t.toLowerCase().includes(q))),
-  );
+  const shown = projects.filter((p) => (role === 'All' || p.role === role) && matchesQuery(p, query));
 
   return (
     <div className="browser">
