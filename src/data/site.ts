@@ -184,8 +184,8 @@ export const skills = [
 ];
 
 export const education = [
+  { title: 'Data Science Bootcamp', org: 'Brototype, Bengaluru', dates: 'Apr 2023 – Jun 2024' },
   { title: 'BSc Mathematics', org: 'Amrita Vishwa Vidyapeetham', dates: 'Apr 2017 – Feb 2020' },
-  { title: 'Data Science bootcamp', org: 'Brototype', dates: 'Apr 2023 – Jun 2024' },
 ];
 
 // Certifications as listed on the resume, each with its Coursera verification link (Melvin's choice, 2026-11-06).
