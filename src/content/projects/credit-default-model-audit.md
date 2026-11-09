@@ -2,7 +2,7 @@
 title: Credit default model audit
 outcome: Proved that 85% of a 0.927-Gini credit model came from data unavailable at application time, then rebuilt it to an honest Gini of 0.2914.
 role: Data Science
-stack: [Python, LightGBM, scikit-learn, Hyperopt, SHAP, pandas, GitHub Actions]
+stack: [Python, LightGBM, scikit-learn, Hyperopt, SHAP, Calibration, pandas, GitHub Actions]
 metrics:
   - { value: "0.2914", label: "hold-out Gini after removing leakage" }
   - { value: "5.66%", label: "bad rate at a 555-point cutoff, down from 8.71%" }

@@ -158,28 +158,28 @@ export function experienceLabel(now = new Date()) {
 // Power BI appears only here.
 export const skills = [
   {
-    group: 'Machine learning',
-    items: ['scikit-learn', 'XGBoost', 'LightGBM', 'Random forests', 'Time-series forecasting', 'Classification', 'Anomaly detection', 'Recommender systems', 'SHAP', 'Optuna', 'Hyperopt'],
+    group: 'Machine learning and statistics',
+    items: ['scikit-learn', 'XGBoost', 'LightGBM', 'Time-series forecasting', 'A/B testing', 'Bayesian modelling (PyMC)', 'Survival analysis', 'statsmodels'],
   },
   {
-    group: 'Deep learning and NLP',
-    items: ['PyTorch', 'TensorFlow / Keras', 'LSTM', 'Hugging Face Transformers', 'Fine-tuning (LoRA, PEFT, QLoRA)', 'Embeddings', 'NLTK'],
+    group: 'Model evaluation and auditing',
+    items: ['Leakage detection', 'Cross-validation', 'Calibration', 'SHAP', 'Golden-set evaluation', 'RAGAS', 'PSI drift monitoring'],
   },
   {
     group: 'LLM applications',
-    items: ['RAG', 'LangChain', 'FAISS', 'Qdrant', 'OpenAI', 'Google Gemini', 'Ollama', 'Tool-calling agents', 'RAGAS', 'Golden-set evaluation', 'Langfuse'],
+    items: ['RAG', 'LangChain', 'Prompt engineering', 'FAISS', 'Qdrant', 'MCP tool-calling agents', 'Ollama', 'OpenAI', 'Google Gemini', 'Langfuse'],
   },
   {
-    group: 'Statistics and experimentation',
-    items: ['A/B testing', 'Power and MDE', 'Hypothesis testing', 'Bayesian modelling (PyMC)', 'statsmodels', 'SciPy', 'Leakage detection', 'Cross-validation'],
+    group: 'Deep learning and NLP',
+    items: ['PyTorch', 'TensorFlow/Keras', 'LSTM', 'Hugging Face Transformers', 'Fine-tuning (LoRA, QLoRA)', 'Embeddings'],
   },
   {
     group: 'Deployment and MLOps',
-    items: ['FastAPI', 'Docker', 'Google Cloud Run', 'GitHub Actions CI/CD', 'MLflow', 'PSI drift monitoring', 'pytest', 'Prefect'],
+    items: ['FastAPI', 'Docker', 'Google Cloud Run', 'GitHub Actions', 'MLflow', 'Prefect', 'pytest'],
   },
   {
     group: 'Data and analytics',
-    items: ['Python', 'SQL', 'pandas', 'NumPy', 'DuckDB', 'Streamlit', 'Plotly', 'Tableau', 'Power BI', 'Excel'],
+    items: ['Python', 'SQL', 'pandas', 'NumPy', 'DuckDB', 'PostgreSQL', 'Streamlit', 'Tableau', 'Power BI'],
   },
 ];
 
