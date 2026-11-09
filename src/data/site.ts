@@ -188,11 +188,11 @@ export const education = [
   { title: 'BSc Mathematics', org: 'Amrita Vishwa Vidyapeetham', dates: 'Apr 2017 – Feb 2020' },
 ];
 
-// Certifications as listed on the resume, each with its Coursera verification link (Melvin's choice, 2026-11-06).
-export const certifications: { name: string; issuer?: string; url?: string }[] = [
-  { name: 'Databases and SQL for Data Science with Python', issuer: 'IBM (Coursera)', url: 'https://coursera.org/verify/RJN3DQWG2JDE' },
-  { name: 'Machine Learning with Python', issuer: 'IBM (Coursera)', url: 'https://coursera.org/verify/ETYX27CE2ARN' },
-  { name: 'Exploratory Data Analysis for Machine Learning', issuer: 'IBM (Coursera)', url: 'https://coursera.org/verify/8SV2A67PGCPF' },
-  { name: 'Data Analysis with Python', issuer: 'IBM (Coursera)', url: 'https://coursera.org/verify/NSGRGQLUJA79' },
-  { name: 'Python Packages for Data Science', issuer: 'University of Colorado Boulder (Coursera)', url: 'https://coursera.org/verify/N9GV9H32RMER' },
+// Certifications as listed on the resume, newest first, each with its Coursera verification link (Melvin's choice, 2026-11-06).
+export const certifications: { name: string; issuer: string; date: string; url: string }[] = [
+  { name: 'Databases and SQL for Data Science with Python', issuer: 'IBM (Coursera)', date: 'Jan 2024', url: 'https://coursera.org/verify/RJN3DQWG2JDE' },
+  { name: 'Machine Learning with Python', issuer: 'IBM (Coursera)', date: 'Dec 2023', url: 'https://coursera.org/verify/ETYX27CE2ARN' },
+  { name: 'Exploratory Data Analysis for Machine Learning', issuer: 'IBM (Coursera)', date: 'Dec 2023', url: 'https://coursera.org/verify/8SV2A67PGCPF' },
+  { name: 'Data Analysis with Python', issuer: 'IBM (Coursera)', date: 'Oct 2023', url: 'https://coursera.org/verify/NSGRGQLUJA79' },
+  { name: 'Python Packages for Data Science', issuer: 'University of Colorado Boulder (Coursera)', date: 'Oct 2023', url: 'https://coursera.org/verify/N9GV9H32RMER' },
 ];
