@@ -1,25 +1,53 @@
 /* Project cards and the /projects/ filter. Plain CSS so both Astro and React components can use it. */
-.project { padding: 1.75rem 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 3rem; }
-.project-meta { display: flex; gap: 0.75rem; font-size: var(--step--1); color: var(--muted); margin-bottom: 0.35rem; }
-.project-status { color: var(--amber); font-weight: 600; }
-.project-title { margin-bottom: 0.35em; font-size: var(--step-1); }
+/* Grid of cards: 2 per row on wide screens, 1 on phones. Each list item stretches so a row's cards match in height. */
+.project-list {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1rem;
+}
+.project-list > li { display: flex; }
+
+/* Card: same box as the Skills, Education and Certifications cards. Groups are separated by spacing only.
+   Hover or focus anywhere inside turns the border accent; no movement or shadow. */
+.project {
+  display: flex; flex-direction: column; width: 100%; height: 100%;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem;
+  transition: border-color 0.15s;
+}
+.project:hover, .project:focus-within { border-color: var(--accent); }
+
+.pill {
+  display: inline-flex; align-items: center; font-size: var(--step--1); line-height: 1.4;
+  border: 1px solid var(--line); border-radius: 999px; padding: 0.2em 0.7em;
+}
+.project-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.9rem; }
+.project-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; color: var(--muted); }
+.project-status { color: var(--amber); border-color: currentColor; font-weight: 600; }
+.project-icons { display: flex; gap: 0.25rem; margin: -0.3rem -0.3rem 0 0; flex: none; }
+.project-icons a { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: var(--radius); color: var(--muted); }
+.project-icons a:hover, .project-icons a:focus-visible { color: var(--accent); }
+
+.project-title { font-family: var(--font-head); font-size: var(--step-1); margin: 0 0 0.4em; }
 .project-title a { color: var(--ink); text-decoration: none; }
 .project-title a:hover { text-decoration: underline; }
-.project-outcome { max-width: 52ch; }
-.project-stack { color: var(--muted); font-size: var(--step--1); }
-.project-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin: 0; font-weight: 600; }
-.project-metrics { margin: 0; display: grid; gap: 0.9rem; align-content: start; padding-top: 1.6rem; }
-.project-metrics div { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 1rem; align-items: baseline; }
-.project-metrics dd { order: -1; margin: 0; white-space: nowrap; font-family: var(--font-head); font-weight: 700; font-size: var(--step-1); color: var(--accent); }
-.project-metrics dt { color: var(--muted); font-size: var(--step--1); line-height: 1.4; }
-@media (max-width: 760px) {
-  .project { grid-template-columns: 1fr; }
-  .project-metrics { padding-top: 1.25rem; }
-}
+.project-outcome { color: var(--muted); margin: 0 0 1.25rem; }
 
-.project-list { list-style: none; padding: 0; margin: 0; }
-.project-list > li { border-top: 1px solid var(--line); }
-.project-list > li:last-child { border-bottom: 1px solid var(--line); }
+/* Up to three headline numbers side by side (two on very narrow screens). */
+.project-metrics { margin: 0 0 1.25rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.project-metrics div { display: flex; flex-direction: column; gap: 0.25rem; }
+.project-metrics dd {
+  order: -1; margin: 0; font-family: var(--font-head); font-weight: 700; font-size: var(--step-1);
+  line-height: 1.15; color: var(--accent); font-variant-numeric: tabular-nums;
+}
+.project-metrics dt { color: var(--muted); font-size: var(--step--1); line-height: 1.35; }
+.project-metrics .nowrap { white-space: nowrap; }
+@media (max-width: 400px) { .project-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.project-stack { list-style: none; padding: 0; margin: 0 0 1.25rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.project-stack .pill { color: var(--ink); }
+
+/* Case study and demo links sit at the bottom so they line up across a row. */
+.project-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin: auto 0 0; font-weight: 600; }
+.project-links a { color: var(--accent); }
 
 /* Filter controls */
 .browser-controls { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; margin: 2rem 0 1rem; }
