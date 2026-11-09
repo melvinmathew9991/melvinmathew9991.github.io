@@ -1,4 +1,4 @@
-// One project card: role and status, icon links, title, outcome, headline metrics, stack and links.
+// One project card: role and status, GitHub link, title, outcome, headline metrics, stack and links.
 // Used statically on the home page and inside the interactive ProjectBrowser on /projects/.
 // Featured projects link to their case study; archive projects link straight to the repo.
 import '../styles/projects.css';
@@ -41,22 +41,15 @@ export default function ProjectCard({ project, headingLevel = 3 }) {
           <span className="pill">{role}</span>
           {STATUS[status] && <span className="pill project-status">{STATUS[status]}</span>}
         </p>
-        <p className="project-icons">
-          {repo && (
+        {repo && (
+          <p className="project-icons">
             <a href={repo} aria-label={`Code for ${title} on GitHub`} title="Code on GitHub">
               <svg {...iconProps}>
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
               </svg>
             </a>
-          )}
-          {featured && (
-            <a href={caseStudy} aria-label={`Case study: ${title}`} title="Read the case study">
-              <svg {...iconProps}>
-                <path d="M7 17 17 7M8 7h9v9" />
-              </svg>
-            </a>
-          )}
-        </p>
+          </p>
+        )}
       </div>
       <Heading className="project-title">
         <a href={href}>{title}</a>
