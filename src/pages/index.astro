@@ -12,24 +12,22 @@ const total = allProjects.length;
 
 // Skills: each tag searches the projects for a keyword (the skill name unless overridden here).
 // The count uses the same match as the /projects/ search box, so the link shows exactly that many results.
+// "A/B test" rather than "A/B" so it doesn't match "media/baseline". "PSI drift monitoring" has no override:
+// "drift" alone matched a drift forecasting model, so the tag stays plain until a project lists it.
 const skillKeywords: Record<string, string> = {
-  'TensorFlow / Keras': 'TensorFlow',
-  'GitHub Actions CI/CD': 'GitHub Actions',
-  'Bayesian modelling (PyMC)': 'PyMC',
-  'Fine-tuning (LoRA, PEFT, QLoRA)': 'PEFT',
   'Time-series forecasting': 'forecast',
-  'A/B testing': 'A/B',
+  'A/B testing': 'A/B test',
+  'Bayesian modelling (PyMC)': 'PyMC',
+  'Survival analysis': 'survival',
   'Leakage detection': 'leakage',
-  'Anomaly detection': 'anomaly',
-  'Recommender systems': 'recommend',
-  'Random forests': 'Random Forest',
-  'Tool-calling agents': 'MCP',
-  'Golden-set evaluation': 'golden set',
-  'Hypothesis testing': 'p =',
   'Cross-validation': 'cross-validation',
+  'Calibration': 'calibrat',
+  'Golden-set evaluation': 'golden set',
+  'Prompt engineering': 'prompt',
+  'MCP tool-calling agents': 'MCP',
+  'TensorFlow/Keras': 'TensorFlow',
+  'Fine-tuning (LoRA, QLoRA)': 'QLoRA',
   'Embeddings': 'embedding',
-  'PSI drift monitoring': 'drift',
-  'Power and MDE': 'minimum detectable effect',
 };
 const skillGroups = skills.map((s) => ({
   group: s.group,
@@ -41,10 +39,10 @@ const skillGroups = skills.map((s) => ({
 }));
 // 18px line icons for the group headings (24px grid, drawn with the accent stroke).
 const groupIcons: Record<string, string> = {
-  'Machine learning': '<circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v5M12 12l-6 5M12 12l6 5"/>',
-  'Deep learning and NLP': '<path d="M2 7c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-1.5 5 0M2 12c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-1.5 5 0M2 17c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-1.5 5 0"/>',
+  'Machine learning and statistics': '<circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v5M12 12l-6 5M12 12l6 5"/>',
+  'Model evaluation and auditing': '<circle cx="11" cy="11" r="7"/><path d="m21 21-5-5M8 11l2 2 4-4"/>',
   'LLM applications': '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/>',
-  'Statistics and experimentation': '<path d="M3 21h18M7 21v-7M12 21V5M17 21v-11"/>',
+  'Deep learning and NLP': '<path d="M2 7c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-1.5 5 0M2 12c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-1.5 5 0M2 17c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-1.5 5 0"/>',
   'Deployment and MLOps': '<path d="M5 15c-1.5 1.3-2 4.5-2 6 1.5 0 4.7-.5 6-2M12 15l-3-3c1.5-4.5 5-8.5 12-9-.5 7-4.5 10.5-9 12z"/><path d="M9 12H5l2.5-3.5H11M12 15v4l3.5-2.5V13"/><circle cx="15.5" cy="8.5" r="1.5"/>',
   'Data and analytics': '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
 };
