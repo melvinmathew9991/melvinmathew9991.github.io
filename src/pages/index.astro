@@ -8,20 +8,8 @@ import { profile, aboutStats, corrections, experience, experienceLabel, skills, 
 const featured = await getProjects((p) => p.tier === 'featured');
 const total = (await getProjects()).length;
 
-// Contact: mailto links with a pre-filled subject and body for each kind of message.
-const mailto = (subject: string, body: string) =>
-  `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-const emailOptions = [
-  {
-    label: "I'm hiring",
-    href: mailto('Data Scientist / ML Engineer role at [Company]', "Hi Melvin,\n\nWe're hiring for: \nLocation / remote: \nNext step: \n\nThanks,"),
-  },
-  {
-    label: 'Freelance project',
-    href: mailto('Freelance project enquiry', 'Hi Melvin,\n\nThe project: \nTimeline: \nBudget range: \n\nThanks,'),
-  },
-  { label: 'Just saying hi', href: mailto('Hello from your portfolio', 'Hi Melvin,\n\n') },
-];
+// Contact: "Email me" opens the visitor's mail app with a subject already filled in.
+const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello from your portfolio')}`;
 ---
 <Base>
   <!-- Hero: where and availability, name, role, one-paragraph pitch, and two actions. -->
@@ -195,25 +183,25 @@ const emailOptions = [
     </div>
   </section>
 
-  <!-- Contact: status, resume download first, then pre-filled email buttons. -->
+  <!-- Contact: punch line, status, then two actions (resume download and email). -->
   <section id="contact" class="wrap section contact" aria-labelledby="contact-title">
     <div class="read">
       <h2 id="contact-title">Get in touch</h2>
       <p class="punch">Hiring in data science or AI/ML, or building with LLMs? <span>Let's talk.</span></p>
       <p class="status">
         <span class="status-dot" aria-hidden="true"></span>
-        <span>Available now · Based in Bengaluru · Open to relocation and remote · Full-time + freelance</span>
+        <span>Available now · Bengaluru, India · On-site, hybrid or remote · Open to relocation · Full-time or contract</span>
       </p>
-      <a class="btn btn-primary" href={profile.resume} download="Melvin_Mathew_Resume.pdf" aria-label="Download resume (PDF)">
-        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></svg>
-        Resume
-      </a>
-      <p class="write-label small">Prefer to write first?</p>
-      <ul class="email-options">
-        {emailOptions.map((o) => (
-          <li><a class="btn" href={o.href} aria-label={`Email Melvin: ${o.label}`}>{o.label}</a></li>
-        ))}
-      </ul>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href={profile.resume} download="Melvin_Mathew_Resume.pdf" aria-label="Download resume (PDF)">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></svg>
+          Resume
+        </a>
+        <a class="btn" href={emailHref}>
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 6-10 7L2 6" /></svg>
+          Email me
+        </a>
+      </div>
     </div>
   </section>
 </Base>
@@ -351,7 +339,6 @@ const emailOptions = [
     color: var(--ink); margin: 0 0 0.9rem; max-width: 34ch;
   }
   .punch span { color: var(--accent); white-space: nowrap; }
-  .write-label { color: var(--muted); margin: 2.25rem 0 0.75rem; }
-  .email-options { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .contact-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
 </style>
