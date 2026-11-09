@@ -140,54 +140,38 @@ const year = new Date().getFullYear();
     </main>
 
     <footer class="site-footer">
-      <div class="wrap">
-        <div class="footer-grid">
-          <div class="footer-col">
-            <h2 id="footer-pages">Pages</h2>
-            <ul aria-labelledby="footer-pages">
-              <li><a href="/">Home</a></li>
-              <li><a href="/#about">About</a></li>
-              <li><a href="/#experience">Experience</a></li>
-              <li><a href="/projects/">All projects</a></li>
-              <li><a href="/#contact">Contact</a></li>
-              {hasPosts && <li><a href="/blog/">Blog</a></li>}
-            </ul>
-          </div>
-          <div class="footer-col connect">
-            <h2 id="footer-connect">Connect</h2>
-            {/* Icon-only links: aria-label gives screen readers the name, title shows it on hover. */}
-            <ul aria-labelledby="footer-connect">
-              <li>
-                <a href={profile.linkedin} aria-label="LinkedIn" title="LinkedIn">
-                  <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="3" /><path d="M7 10v7M7 7v.01M11 17v-7M11 13a3 3 0 0 1 6 0v4" /></svg>
-                </a>
-              </li>
-              <li>
-                <a href={profile.github} aria-label="GitHub" title="GitHub">
-                  <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${profile.email}`} aria-label="Email" title="Email">
-                  <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 6-10 7L2 6" /></svg>
-                </a>
-              </li>
-              <li>
-                <a href={profile.resume} aria-label="Resume (PDF)" title="Resume (PDF)">
-                  <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M8 13h8M8 17h8" /></svg>
-                </a>
-              </li>
-            </ul>
-          </div>
+      <div class="wrap footer-inner">
+        <div class="footer-meta">
+          <p class="footer-name">© {year} {profile.name}</p>
+          <p>Built with Astro and React</p>
         </div>
-        <div class="footer-bar">
-          <p>© {year} {profile.name}</p>
-          <p>
-            Built with Astro and React
-            <span class="dot" aria-hidden="true">·</span>
-            <a class="to-top" href="#main">Back to top <span aria-hidden="true">↑</span></a>
-          </p>
-        </div>
+        {/* Icon-only links: aria-label gives screen readers the name, title shows it on hover. */}
+        <nav class="footer-links" aria-label="Connect">
+          <ul>
+            <li>
+              <a href={profile.linkedin} aria-label="LinkedIn" title="LinkedIn">
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="3" /><path d="M7 10v7M7 7v.01M11 17v-7M11 13a3 3 0 0 1 6 0v4" /></svg>
+              </a>
+            </li>
+            <li>
+              <a href={profile.github} aria-label="GitHub" title="GitHub">
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${profile.email}`} aria-label="Email" title="Email">
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 6-10 7L2 6" /></svg>
+              </a>
+            </li>
+            <li>
+              <a href={profile.resume} aria-label="Resume (PDF)" title="Resume (PDF)">
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M8 13h8M8 17h8" /></svg>
+              </a>
+            </li>
+          </ul>
+          <span class="divider" aria-hidden="true"></span>
+          <a class="to-top" href="#main">Top <span aria-hidden="true">↑</span></a>
+        </nav>
       </div>
     </footer>
 
@@ -236,38 +220,30 @@ const year = new Date().getFullYear();
     display: grid; place-items: center; width: 2.5rem; height: 2.5rem;
     background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 50%; cursor: pointer;
   }
-  /* Footer: separated from the page by a single line; two rows ("Pages" + links, "Connect" + icons)
-     and a bottom bar. No box around it. */
+  /* Footer: one line under a divider. Name and build note on the left, icon links and
+     "Top" on the right, both vertically centred. Stacks and centres on small screens. */
   .site-footer {
-    border-top: 1px solid var(--line); margin-top: 4rem; padding: 2.5rem 0 2rem;
-    color: var(--muted); font-size: var(--step--1); line-height: 1.6;
+    border-top: 1px solid var(--line); margin-top: 4rem; padding: 2rem 0;
+    color: var(--muted); font-size: var(--step--1); line-height: 1.5;
   }
-  /* Each row: heading in a fixed-width left column, links in a line after it (they wrap on narrow
-     screens). Heading and links share one line height and top alignment, so they line up exactly. */
-  .footer-grid { display: grid; gap: 1rem; }
-  .footer-col { display: flex; align-items: flex-start; gap: 0.5rem 1.5rem; }
-  .footer-col h2 {
-    font-family: var(--font-body); font-size: var(--step--1); font-weight: 600; line-height: 1.6;
-    color: var(--ink); margin: 0; flex: none; width: 4.5rem;
+  .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.25rem 2rem; flex-wrap: wrap; }
+  .footer-meta p { margin: 0; }
+  .footer-name { color: var(--ink); font-weight: 600; }
+  .footer-links { display: flex; align-items: center; gap: 0.75rem; }
+  .footer-links ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.5rem; }
+  /* Each icon sits in a 2.5rem circle: an easy tap target that lights up on hover. */
+  .footer-links ul a {
+    display: grid; place-items: center; width: 2.5rem; height: 2.5rem;
+    color: var(--muted); border: 1px solid var(--line); border-radius: 50%;
+    transition: color 0.15s, border-color 0.15s;
   }
-  .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
-  .footer-col a, .to-top { color: var(--muted); text-decoration: none; }
-  .footer-col a { display: inline-flex; align-items: center; gap: 0.5rem; }
-  .footer-col a:hover, .to-top:hover { color: var(--ink); text-decoration: underline; }
-  .footer-col svg { flex: none; }
-  .footer-col a:hover svg { color: var(--accent); }
-  /* Connect: icons only. Each is a 2rem square (an easy tap target), centred on the heading's line. */
-  .connect { align-items: center; }
-  /* Negative margin = the padding around the first icon, so it lines up with "Home" above. */
-  .connect ul { gap: 0.5rem; margin-left: -0.375rem; }
-  .connect a { justify-content: center; width: 2rem; height: 2rem; border-radius: var(--radius); }
-  .connect a:hover { color: var(--accent); }
-  .footer-bar {
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.25rem 2rem;
-    border-top: 1px solid var(--line); margin-top: 1.5rem; padding-top: 1.25rem;
+  .footer-links ul a:hover, .footer-links ul a:focus-visible { color: var(--accent); border-color: var(--accent); }
+  .divider { width: 1px; height: 1.5rem; background: var(--line); }
+  .to-top { color: var(--muted); text-decoration: none; white-space: nowrap; }
+  .to-top:hover { color: var(--ink); text-decoration: underline; }
+  @media (max-width: 560px) {
+    .footer-inner { flex-direction: column; text-align: center; }
   }
-  .footer-bar p { margin: 0; }
-  .dot { margin: 0 0.4rem; }
   /* Narrower screens: name and theme button on the first row, the menu as one swipeable row
      underneath, so the sticky header stays two rows high however many links there are. */
   @media (max-width: 900px) {
