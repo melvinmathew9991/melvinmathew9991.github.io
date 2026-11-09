@@ -15,9 +15,6 @@ export const profile = {
   resume: '/resume.pdf',
   // Update this date whenever public/resume.pdf is replaced.
   resumeUpdated: '2026-11-07',
-  // Web3Forms access key for the contact form (get one free at https://web3forms.com).
-  // Empty = the form is hidden and only the email/LinkedIn links show. Safe to publish.
-  contactFormKey: 'b8f0bce5-b270-4ef0-974c-cbdf4cebbc97',
   // GoatCounter account for visitor stats (dashboard: https://<name>.goatcounter.com).
   // Empty = no stats script. Only loaded in the production build, and GoatCounter itself
   // ignores localhost, so local previews are never counted.
