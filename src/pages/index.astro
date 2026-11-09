@@ -2,12 +2,30 @@
 // Home page. Content comes from src/data/site.ts and the featured entries in src/content/projects/.
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.jsx';
-import ContactForm from '../components/ContactForm.astro';
 import { getProjects } from '../lib/projects';
-import { profile, aboutStats, corrections, experience, experienceLabel, skills, education, certifications, lookingFor } from '../data/site';
+import { profile, aboutStats, corrections, experience, experienceLabel, skills, education, certifications } from '../data/site';
 
 const featured = await getProjects((p) => p.tier === 'featured');
 const total = (await getProjects()).length;
+
+// Contact: resume date as "7 Nov 2026" (UTC so the build machine's timezone can't shift the day),
+// and mailto links with a pre-filled subject and body for each kind of message.
+const resumeDate = new Date(profile.resumeUpdated).toLocaleDateString('en-GB', {
+  day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC',
+});
+const mailto = (subject: string, body: string) =>
+  `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const emailOptions = [
+  {
+    label: "I'm hiring",
+    href: mailto('Data Scientist / ML Engineer role at [Company]', "Hi Melvin,\n\nWe're hiring for: \nLocation / remote: \nNext step: \n\nThanks,"),
+  },
+  {
+    label: 'Freelance project',
+    href: mailto('Freelance project enquiry', 'Hi Melvin,\n\nThe project: \nTimeline: \nBudget range: \n\nThanks,'),
+  },
+  { label: 'Just saying hi', href: mailto('Hello from your portfolio', 'Hi Melvin,\n\n') },
+];
 ---
 <Base>
   <!-- Hero: where and availability, name, role, one-paragraph pitch, and two actions. -->
@@ -181,23 +199,29 @@ const total = (await getProjects()).length;
     </div>
   </section>
 
-  <!-- Contact. -->
+  <!-- Contact: status, resume download first, then pre-filled email buttons. -->
   <section id="contact" class="wrap section contact" aria-labelledby="contact-title">
-    <h2 id="contact-title">Get in touch</h2>
-    <p class="read">
-      {/* {' '} keeps the space between the two sentences; Astro drops a line break before an expression. */}
-      Hiring for a data science or AI/ML role, or need help with a model or an LLM application?{' '}
-      {profile.contactFormKey ? 'Send me a message here. Email, LinkedIn and GitHub links are in the footer.' : 'Email is the fastest way to reach me.'}
-    </p>
-    <div class="looking read">
-      <h3>What I'm looking for</h3>
-      <dl>
-        {lookingFor.map((row) => (
-          <div><dt>{row.label}</dt><dd>{row.value}</dd></div>
+    <div class="read">
+      <h2 id="contact-title">Get in touch</h2>
+      <p>Hiring for a data science or AI/ML role, or need help with a model or an LLM application?</p>
+      <p class="status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>Available now · Based in Bengaluru · Open to relocation and remote · Full-time + freelance</span>
+      </p>
+      <div class="resume-row">
+        <a class="btn btn-primary btn-lg" href={profile.resume} download="Melvin_Mathew_Resume.pdf">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></svg>
+          Download resume (PDF)
+        </a>
+        <span class="muted small">2 pages · updated {resumeDate}</span>
+      </div>
+      <p class="write-label small">Prefer to write first?</p>
+      <ul class="email-options">
+        {emailOptions.map((o) => (
+          <li><a class="btn" href={o.href} aria-label={`Email Melvin: ${o.label}`}>{o.label}</a></li>
         ))}
-      </dl>
+      </ul>
     </div>
-    <ContactForm />
   </section>
 </Base>
 
@@ -316,18 +340,21 @@ const total = (await getProjects()).length;
   .plain { list-style: none; padding: 0; margin: 0; }
   .plain li { padding: 0.5rem 0; border-bottom: 1px solid var(--line); }
 
-  /* "What I'm looking for" card above the contact form. */
-  .looking {
-    background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent);
-    border-radius: var(--radius); padding: 1.25rem 1.5rem; margin: 1.5rem 0 2rem;
+  /* Contact: groups separated by spacing only. */
+  .status { display: flex; gap: 0.6rem; align-items: baseline; color: var(--muted); font-size: var(--step--1); margin: 0 0 1.75rem; }
+  /* 8px dot with a soft pulsing ring (the global reduced-motion rule also stops it). */
+  .status-dot {
+    flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    transform: translateY(-1px); animation: pulse 2.4s ease-in-out infinite;
   }
-  .looking h3 { font-size: var(--step-0); margin-bottom: 0.75rem; }
-  .looking dl { margin: 0; display: grid; gap: 0.5rem; }
-  .looking dl div { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; }
-  .looking dt { color: var(--muted); font-size: var(--step--1); padding-top: 0.15em; }
-  .looking dd { margin: 0; }
-  @media (max-width: 480px) {
-    .looking dl div { grid-template-columns: 1fr; gap: 0; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
+    50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 0%, transparent); }
   }
+  @media (prefers-reduced-motion: reduce) { .status-dot { animation: none; } }
+  .resume-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; }
+  .btn-lg { font-size: var(--step-1); padding: 0.7em 1.3em; }
+  .write-label { color: var(--muted); margin: 2.25rem 0 0.75rem; }
+  .email-options { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
 </style>
