@@ -171,15 +171,19 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
         ))}
       </ul>
     </div>
+  </section>
 
-    <!-- Education: last part of Achievements, with no menu link of its own. -->
-    <div class="certs">
-      <h3 class="sub">Education</h3>
-      <ul class="plain">
-        {education.map((e) => (
-          <li><strong>{e.title}</strong>, {e.org} <span class="muted num">({e.dates})</span></li>
-        ))}
-      </ul>
+  <!-- Education: one card per entry, most recent first. No menu link of its own. -->
+  <section id="education" class="wrap section" aria-labelledby="education-title">
+    <h2 id="education-title">Education</h2>
+    <div class="edu-grid">
+      {education.map((e) => (
+        <article class="edu-card">
+          <h3>{e.title}</h3>
+          <p class="edu-place">{e.org}</p>
+          <p class="edu-dates">{e.dates}</p>
+        </article>
+      ))}
     </div>
   </section>
 
@@ -317,9 +321,20 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
   .skills dt { font-weight: 600; margin-bottom: 0.25rem; }
   .skills dd { margin: 0; color: var(--muted); }
 
-  /* Certifications and education lists (in Achievements) */
+  /* Certifications list (in Achievements) */
   .plain { list-style: none; padding: 0; margin: 0; }
   .plain li { padding: 0.5rem 0; border-bottom: 1px solid var(--line); }
+
+  /* Education: cards side by side on wide screens, stacked on phones. Hover changes the border colour only. */
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; margin-top: 1.5rem; }
+  .edu-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem;
+    transition: border-color 0.15s;
+  }
+  .edu-card:hover { border-color: var(--accent); }
+  .edu-card h3 { font-weight: 600; color: var(--ink); margin: 0 0 0.35rem; }
+  .edu-card p { margin: 0; color: var(--muted); }
+  .edu-card .edu-dates { font-size: var(--step--1); font-variant-numeric: tabular-nums; margin-top: 0.25rem; }
 
   /* Contact: groups separated by spacing only. */
   .status { display: flex; gap: 0.6rem; align-items: baseline; color: var(--muted); font-size: var(--step--1); margin: 0 0 1.75rem; }
