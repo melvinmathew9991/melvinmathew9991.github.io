@@ -24,7 +24,7 @@
   --step-2: 1.6rem;
   --step-3: clamp(2rem, 1.4rem + 2.6vw, 3rem);
 
-  --wrap: 1040px;
+  --wrap: 1120px;
   --read: 680px;
   --gutter: clamp(1rem, 4vw, 2rem);
   --radius: 6px;
