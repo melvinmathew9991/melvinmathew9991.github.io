@@ -3,10 +3,51 @@
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.jsx';
 import { getProjects } from '../lib/projects';
+import { matchesQuery } from '../lib/search.js';
 import { profile, aboutStats, corrections, experience, experienceLabel, skills, education, certifications } from '../data/site';
 
 const featured = await getProjects((p) => p.tier === 'featured');
-const total = (await getProjects()).length;
+const allProjects = await getProjects();
+const total = allProjects.length;
+
+// Skills: each tag searches the projects for a keyword (the skill name unless overridden here).
+// The count uses the same match as the /projects/ search box, so the link shows exactly that many results.
+const skillKeywords: Record<string, string> = {
+  'TensorFlow / Keras': 'TensorFlow',
+  'GitHub Actions CI/CD': 'GitHub Actions',
+  'Bayesian modelling (PyMC)': 'PyMC',
+  'Fine-tuning (LoRA, PEFT, QLoRA)': 'PEFT',
+  'Time-series forecasting': 'forecast',
+  'A/B testing': 'A/B',
+  'Leakage detection': 'leakage',
+  'Anomaly detection': 'anomaly',
+  'Recommender systems': 'recommend',
+  'Random forests': 'Random Forest',
+  'Tool-calling agents': 'MCP',
+  'Golden-set evaluation': 'golden set',
+  'Hypothesis testing': 'p =',
+  'Cross-validation': 'cross-validation',
+  'Embeddings': 'embedding',
+  'PSI drift monitoring': 'drift',
+  'Power and MDE': 'minimum detectable effect',
+};
+const skillGroups = skills.map((s) => ({
+  group: s.group,
+  items: s.items.map((name) => {
+    const keyword = skillKeywords[name] ?? name;
+    const count = allProjects.filter((p) => matchesQuery(p, keyword)).length;
+    return { name, keyword, count, href: `/projects/?q=${encodeURIComponent(keyword)}` };
+  }),
+}));
+// 18px line icons for the group headings (24px grid, drawn with the accent stroke).
+const groupIcons: Record<string, string> = {
+  'Machine learning': '<circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v5M12 12l-6 5M12 12l6 5"/>',
+  'Deep learning and NLP': '<path d="M2 7c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-1.5 5 0M2 12c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-1.5 5 0M2 17c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-1.5 5 0"/>',
+  'LLM applications': '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/>',
+  'Statistics and experimentation': '<path d="M3 21h18M7 21v-7M12 21V5M17 21v-11"/>',
+  'Deployment and MLOps': '<path d="M5 15c-1.5 1.3-2 4.5-2 6 1.5 0 4.7-.5 6-2M12 15l-3-3c1.5-4.5 5-8.5 12-9-.5 7-4.5 10.5-9 12z"/><path d="M9 12H5l2.5-3.5H11M12 15v4l3.5-2.5V13"/><circle cx="15.5" cy="8.5" r="1.5"/>',
+  'Data and analytics': '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+};
 
 // Contact: "Email me" opens the visitor's mail app with a subject already filled in.
 const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello from your portfolio')}`;
@@ -112,17 +153,33 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
     <p class="more"><a class="btn" href="/projects/">See all {total} projects</a></p>
   </section>
 
-  <!-- Skills, grouped. -->
+  <!-- Skills: one card per group; tags used in projects link to the matching project search. -->
   <section id="skills" class="wrap section" aria-labelledby="skills-title">
     <h2 id="skills-title">Skills</h2>
-    <dl class="skills">
-      {skills.map((s) => (
-        <div>
-          <dt>{s.group}</dt>
-          <dd>{s.items.join(', ')}</dd>
-        </div>
+    <p class="muted small skills-note">Tags with a number link to the projects that use them.</p>
+    <div class="skill-grid">
+      {skillGroups.map((g) => (
+        <article class="skill-card">
+          <h3>
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={groupIcons[g.group]} />
+            {g.group}
+          </h3>
+          <ul class="tags">
+            {g.items.map((s) => (
+              <li>
+                {s.count > 0 ? (
+                  <a class="tag" href={s.href} aria-label={`${s.name}: used in ${s.count} project${s.count === 1 ? '' : 's'}`}>
+                    {s.name} <span class="tag-count" aria-hidden="true">{s.count}</span>
+                  </a>
+                ) : (
+                  <span class="tag">{s.name}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </article>
       ))}
-    </dl>
+    </div>
   </section>
 
   <!-- Achievements: the correction ledger (reported figure struck through, measured figure beside it),
@@ -320,10 +377,23 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
   .tools { color: var(--muted); font-size: var(--step--1); margin: 0.75rem 0 0; max-width: var(--read); }
   @media (max-width: 640px) { .timeline > li { grid-template-columns: 1fr; } }
 
-  /* Skills */
-  .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1.5rem 3rem; margin: 1.5rem 0 0; }
-  .skills dt { font-weight: 600; margin-bottom: 0.25rem; }
-  .skills dd { margin: 0; color: var(--muted); }
+  /* Skills: group cards styled like the Education and Certifications cards. Every tag uses the ink colour;
+     linked tags (used in at least one project) turn accent on hover and keyboard focus, with no movement. */
+  .skills-note { margin: 0.25rem 0 0; }
+  .skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1rem; margin-top: 1.5rem; }
+  .skill-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.25rem 1.5rem; }
+  .skill-card h3 { display: flex; align-items: center; gap: 0.5rem; font-size: var(--step-0); font-weight: 600; color: var(--ink); margin: 0 0 0.9rem; }
+  .skill-card h3 svg { flex: none; color: var(--accent); }
+  .tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    display: inline-flex; align-items: center; gap: 0.4em;
+    font-size: var(--step--1); line-height: 1.4; color: var(--ink); text-decoration: none;
+    border: 1px solid var(--line); border-radius: 999px; padding: 0.3em 0.75em;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tag-count { color: var(--muted); font-size: 0.75rem; font-variant-numeric: tabular-nums; transition: color 0.15s; }
+  a.tag:hover, a.tag:focus-visible { color: var(--accent); border-color: var(--accent); }
+  a.tag:hover .tag-count, a.tag:focus-visible .tag-count { color: var(--accent); }
 
   /* Certifications: whole card is the link, styled like the Education cards. Hover and keyboard focus
      turn the border and arrow accent; no movement or shadow. */
