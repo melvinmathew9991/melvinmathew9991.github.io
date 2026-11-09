@@ -123,20 +123,24 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
   <section id="experience" class="wrap section" aria-labelledby="exp-title">
     <h2 id="exp-title">Experience</h2>
     <ol class="timeline" role="list">
-      {experience.map((job) => (
-        <li>
-          <p class="when num">{job.dates}</p>
-          <div>
-            <h3>{job.role}</h3>
+      {experience.map((job, i) => (
+        <li class={i === 0 ? 'current' : undefined}>
+          <article class="exp-card">
+            <div class="exp-head">
+              <h3>{job.role}</h3>
+              <p class="when">{job.dates}</p>
+            </div>
             <p class="org">{job.org}</p>
-            {job.note && <p class="muted small">{job.note}</p>}
-            <ul>
+            {job.note && <p class="exp-note">{job.note}</p>}
+            <ul class="exp-points">
               {job.points.map((pt) => <li>{pt}</li>)}
             </ul>
             {job.tools && (
-              <p class="tools"><span class="visually-hidden">Tools: </span>{job.tools.join(', ')}</p>
+              <ul class="exp-tools" aria-label="Tools">
+                {job.tools.map((t) => <li>{t}</li>)}
+              </ul>
             )}
-          </div>
+          </article>
         </li>
       ))}
     </ol>
@@ -362,19 +366,51 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
     .method { grid-template-columns: 1fr; }
   }
 
-  /* Experience timeline */
-  .timeline { list-style: none; padding: 0; margin: 2rem 0 0; }
-  .timeline > li {
-    display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 0.25rem 2rem;
-    padding: 1.5rem 0; border-top: 1px solid var(--line);
+  /* Experience timeline: a 2px line down the left, a dot on it beside each card's title, and the card to its
+     right. Each role draws the line from its own dot down to the next dot, so the line starts and ends on a dot.
+     The current role has a filled dot with a soft ring; past roles have hollow dots. */
+  .timeline {
+    --line-x: 0.6rem; --dot: 14px; --dot-y: 2.35rem; --card-gap: 1.25rem;
+    list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: var(--card-gap);
   }
-  .when { color: var(--muted); font-size: var(--step--1); margin: 0.2rem 0 0; }
-  .timeline h3 { margin-bottom: 0.15em; }
-  .org { color: var(--muted); margin-bottom: 0.6rem; }
-  .timeline ul { padding-left: 1.1rem; margin: 0; max-width: var(--read); }
-  .timeline ul li { margin-bottom: 0.4rem; }
-  .tools { color: var(--muted); font-size: var(--step--1); margin: 0.75rem 0 0; max-width: var(--read); }
-  @media (max-width: 640px) { .timeline > li { grid-template-columns: 1fr; } }
+  .timeline > li { position: relative; }
+  .timeline > li::before {
+    content: ''; position: absolute; z-index: 1;
+    left: calc(var(--line-x) + 1px - var(--dot) / 2); top: calc(var(--dot-y) - var(--dot) / 2);
+    width: var(--dot); height: var(--dot); border-radius: 50%; box-sizing: border-box;
+    background: var(--bg); border: 2px solid var(--accent);
+  }
+  .timeline > li.current::before {
+    background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  .timeline > li:not(:last-child)::after {
+    content: ''; position: absolute; left: var(--line-x); width: 2px; background: var(--line);
+    top: var(--dot-y); bottom: calc(-1 * (var(--card-gap) + var(--dot-y)));
+  }
+  .exp-card {
+    margin-left: 2rem;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem;
+    transition: border-color 0.15s;
+  }
+  .exp-card:hover, .exp-card:focus-within { border-color: var(--accent); }
+  .exp-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.25rem 1.5rem; }
+  .exp-head h3 { font-family: var(--font-head); color: var(--ink); margin: 0; }
+  .when { color: var(--muted); font-size: var(--step--1); font-variant-numeric: tabular-nums; white-space: nowrap; margin: 0; }
+  .org { color: var(--muted); margin: 0.25rem 0 0; }
+  .exp-note { color: var(--muted); font-size: var(--step--1); margin: 0.6rem 0 0; max-width: var(--read); }
+  .exp-points { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 0.5rem; max-width: var(--read); }
+  .exp-points li { position: relative; padding-left: 1.1rem; color: var(--ink); line-height: 1.6; }
+  /* The marker is decoration: the empty alt text after "/" keeps screen readers from announcing it. */
+  .exp-points li::before { content: '›' / ''; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .exp-tools { list-style: none; padding: 0; margin: 1.25rem 0 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .exp-tools li {
+    font-size: var(--step--1); line-height: 1.4; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 999px; padding: 0.2em 0.7em;
+  }
+  @media (max-width: 640px) {
+    .exp-card { margin-left: 1.5rem; }
+    .exp-head { flex-direction: column; }
+  }
 
   /* Skills: group cards styled like the Education and Certifications cards. Every tag uses the ink colour;
      linked tags (used in at least one project) turn accent on hover and keyboard focus, with no movement. */
