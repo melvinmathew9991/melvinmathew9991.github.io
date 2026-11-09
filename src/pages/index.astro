@@ -12,8 +12,8 @@ const total = allProjects.length;
 
 // Skills: each tag searches the projects for a keyword (the skill name unless overridden here).
 // The count uses the same match as the /projects/ search box, so the link shows exactly that many results.
-// "A/B test" rather than "A/B" so it doesn't match "media/baseline". "PSI drift monitoring" has no override:
-// "drift" alone matched a drift forecasting model, so the tag stays plain until a project lists it.
+// "A/B test" rather than "A/B" so it doesn't match "media/baseline". "PSI" rather than "drift", which also
+// matched a drift forecasting model.
 const skillKeywords: Record<string, string> = {
   'Time-series forecasting': 'forecast',
   'A/B testing': 'A/B test',
@@ -23,6 +23,7 @@ const skillKeywords: Record<string, string> = {
   'Cross-validation': 'cross-validation',
   'Calibration': 'calibrat',
   'Golden-set evaluation': 'golden set',
+  'PSI drift monitoring': 'PSI',
   'Prompt engineering': 'prompt',
   'MCP tool-calling agents': 'MCP',
   'TensorFlow/Keras': 'TensorFlow',

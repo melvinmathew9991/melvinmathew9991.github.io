@@ -1,11 +1,11 @@
 ---
 title: Customer support agent with eval gate
-outcome: A local-LLM support agent measured on a 237-conversation golden set, with a live-model eval gate required on every pull request, 0% tier leakage and 100% retrieval recall.
+outcome: A local-LLM support agent measured on a 237-conversation golden set, with a live-model eval gate required on every pull request, no answers leaked across subscription tiers and 100% retrieval recall.
 role: AI/ML Engineering
 stack: [Python, LangChain, Ollama, ChromaDB, SQLite, Streamlit]
 metrics:
   - { value: "237", label: "hand-labelled golden-set conversations" }
-  - { value: "0%", label: "tier leakage" }
+  - { value: "0%", label: "answers leaked across tiers" }
   - { value: "513", label: "automated tests" }
 repo: https://github.com/melvinmathew9991/customer-support-app
 tier: featured
