@@ -159,17 +159,22 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
         ))}
       </tbody>
     </table>
+  </section>
 
-    <div class="certs">
-      <h3 class="sub">Certifications</h3>
-      <ul class="plain">
-        {certifications.map((c) => (
-          <li>
-            {c.url ? <a href={c.url}>{c.name}</a> : c.name}
-            {c.issuer && <span class="muted">, {c.issuer}</span>}
-          </li>
-        ))}
-      </ul>
+  <!-- Certifications: each card is one link to its verification page, newest first. -->
+  <section id="certifications" class="wrap section" aria-labelledby="certifications-title">
+    <h2 id="certifications-title">Certifications</h2>
+    <div class="cert-grid">
+      {certifications.map((c) => (
+        <a class="cert-card" href={c.url} aria-label={`Verify certificate: ${c.name}`}>
+          <span class="cert-top" aria-hidden="true">
+            <svg class="cert-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6" /><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5" /></svg>
+            <svg class="cert-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9" /></svg>
+          </span>
+          <h3>{c.name}</h3>
+          <p>{c.issuer} · {c.date}</p>
+        </a>
+      ))}
     </div>
   </section>
 
@@ -243,9 +248,8 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
   .lede { font-size: var(--step-1); line-height: 1.55; color: var(--muted); }
   .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
 
-  /* Achievements: correction ledger, then certifications */
+  /* Achievements: correction ledger */
   .sub { font-size: var(--step-1); margin-top: 1.5rem; }
-  .certs { margin-top: 3rem; max-width: var(--read); }
   .ledger { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
   .ledger thead th {
     text-align: left; font-family: var(--font-body); font-weight: 600; font-size: var(--step--1);
@@ -321,9 +325,21 @@ const emailHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hello f
   .skills dt { font-weight: 600; margin-bottom: 0.25rem; }
   .skills dd { margin: 0; color: var(--muted); }
 
-  /* Certifications list (in Achievements) */
-  .plain { list-style: none; padding: 0; margin: 0; }
-  .plain li { padding: 0.5rem 0; border-bottom: 1px solid var(--line); }
+  /* Certifications: whole card is the link, styled like the Education cards. Hover and keyboard focus
+     turn the border and arrow accent; no movement or shadow. */
+  .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; margin-top: 1.5rem; }
+  .cert-card {
+    display: flex; flex-direction: column; text-decoration: none;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.25rem 1.5rem;
+    transition: border-color 0.15s;
+  }
+  .cert-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+  .cert-icon { color: var(--accent); }
+  .cert-arrow { color: var(--muted); transition: color 0.15s; }
+  .cert-card:hover, .cert-card:focus-visible { border-color: var(--accent); }
+  .cert-card:hover .cert-arrow, .cert-card:focus-visible .cert-arrow { color: var(--accent); }
+  .cert-card h3 { font-size: var(--step-0); font-weight: 600; color: var(--ink); margin: 0 0 0.35rem; }
+  .cert-card p { margin: 0; font-size: var(--step--1); color: var(--muted); }
 
   /* Education: cards side by side on wide screens, stacked on phones. Hover changes the border colour only. */
   .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; margin-top: 1.5rem; }
